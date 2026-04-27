@@ -13,6 +13,32 @@ import {
 // DATOS MOCK - SOLICITUDES DE COMPRA
 // ============================================================================
 
+export const mockRequests: SolicitudCompra[] = [
+  {
+    id: 'SOL-001',
+    numero: 'SOL-2024-001',
+    titulo: 'Resmas de papel A4 - 500 hojas',
+    descripcion: 'Adquisición de papel bond blanco para oficinas de la coordinación de servicios administrativos',
+    categoria: 'Materiales de Oficina',
+    estado: 'completado',
+    prioridad: 'media',
+    fechaCreacion: new Date('2024-02-15'),
+    solicitadoPor: 'Juan López',
+    usuarioIdSolicitante: 'USR-001',
+    coordinacionSolicitante: 'Servicios Administrativos',
+    montoPresupuestado: 11250,
+    montoAprobado: 10500,
+    observaciones: 'Entregado a almacén el 2024-03-20',
+    historialEstados: [
+      { estado: 'solicitado', fecha: new Date('2024-02-15'), usuario: 'Juan López', usuarioId: 'USR-001' },
+      { estado: 'aprobado', fecha: new Date('2024-02-20'), usuario: 'Carlos Rodríguez', usuarioId: 'USR-002', nota: 'Aprobado por presupuesto' },
+      { estado: 'en_almacen', fecha: new Date('2024-03-20'), usuario: 'María García', usuarioId: 'USR-003' },
+      { estado: 'distribuido', fecha: new Date('2024-03-25'), usuario: 'Pedro Martínez', usuarioId: 'USR-004' },
+      { estado: 'completado', fecha: new Date('2024-03-25'), usuario: 'Pedro Martínez', usuarioId: 'USR-004' },
+    ],
+  },
+];
+
 export const mockSolicitudes: SolicitudCompra[] = [
   {
     id: 'SOL-001',
