@@ -22,9 +22,9 @@ export function RequestList({ requests, showNewButton = true }: RequestListProps
 
   const filteredRequests = requests.filter((request) => {
     const matchesSearch =
-      request.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      request.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      request.location?.toLowerCase().includes(searchTerm.toLowerCase());
+      request.title?.toLowerCase().includes(searchTerm?.toLowerCase()) ||
+      request.description?.toLowerCase().includes(searchTerm?.toLowerCase()) ||
+      request.location?.toLowerCase().includes(searchTerm?.toLowerCase());
 
     const matchesStatus = statusFilter === 'all' || request.status === statusFilter;
     const matchesPriority = priorityFilter === 'all' || request.priority === priorityFilter;
