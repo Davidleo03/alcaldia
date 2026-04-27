@@ -13,7 +13,7 @@ import {
 // DATOS MOCK - SOLICITUDES DE COMPRA
 // ============================================================================
 
-export const mockRequests: SolicitudCompra[] = [
+export const mockRequests : SolicitudCompra[] = [
   {
     id: 'SOL-001',
     numero: 'SOL-2024-001',
