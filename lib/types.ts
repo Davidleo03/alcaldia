@@ -18,6 +18,24 @@ export type EstadoSolicitud =
 
 export type PrioridadSolicitud = 'baja' | 'media' | 'alta' | 'critica';
 
+// Estados para solicitudes de servicio (requests)
+export type RequestStatus = 'pending' | 'in_review' | 'approved' | 'rejected' | 'completed';
+export type RequestPriority = 'low' | 'medium' | 'high';
+
+// Solicitud de servicio (Request)
+export interface Request {
+  id: string;
+  title: string;
+  description: string;
+  location?: string;
+  status: RequestStatus;
+  priority: RequestPriority;
+  createdAt: Date;
+  updatedAt: Date;
+  requestedBy: string;
+  category?: string;
+}
+
 // Solicitud de compra/suministro (Pilar 1)
 export interface SolicitudCompra {
   id: string;

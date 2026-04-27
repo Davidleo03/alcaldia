@@ -1,6 +1,6 @@
 import { MainLayout } from '@/components/layout/MainLayout';
 import { RequestList } from '@/components/requests/RequestList';
-import { mockRequests } from '@/lib/mockData';
+import { mockServiceRequests } from '@/lib/mockData';
 
 export const metadata = {
   title: 'Service Requests - Municipal Services',
@@ -10,7 +10,7 @@ export const metadata = {
 export default function RequestsPage() {
   return (
     <MainLayout>
-      <RequestList requests={mockRequests} />
+      <RequestList requests={mockServiceRequests} />
     </MainLayout>
   );
 }

@@ -1,6 +1,6 @@
 import { MainLayout } from '@/components/layout/MainLayout';
 import { RequestDetail } from '@/components/requests/RequestDetail';
-import { mockRequests } from '@/lib/mockData';
+import { mockServiceRequests } from '@/lib/mockData';
 import { notFound } from 'next/navigation';
 
 export const metadata = {
@@ -18,7 +18,7 @@ export default async function RequestDetailPage({
   params,
 }: RequestDetailPageProps) {
   const { id } = await params;
-  const request = mockRequests.find((r) => r.id === id);
+  const request = mockServiceRequests.find((r) => r.id === id);
 
   if (!request) {
     notFound();

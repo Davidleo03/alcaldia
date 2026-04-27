@@ -6,7 +6,8 @@ import {
   DatosAnalisis,
   AlertaInventario,
   Proveedor,
-  Usuario
+  Usuario,
+  Request
 } from './types';
 
 // ============================================================================
@@ -36,6 +37,45 @@ export const mockRequests : SolicitudCompra[] = [
       { estado: 'distribuido', fecha: new Date('2024-03-25'), usuario: 'Pedro Martínez', usuarioId: 'USR-004' },
       { estado: 'completado', fecha: new Date('2024-03-25'), usuario: 'Pedro Martínez', usuarioId: 'USR-004' },
     ],
+  },
+];
+
+export const mockServiceRequests: Request[] = [
+  {
+    id: 'REQ-001',
+    title: 'Street Light Repair',
+    description: 'The street light at Main Street and 5th Avenue is not working',
+    location: 'Main Street & 5th Avenue',
+    status: 'pending',
+    priority: 'high',
+    createdAt: new Date('2024-03-15'),
+    updatedAt: new Date('2024-03-15'),
+    requestedBy: 'John Doe',
+    category: 'Infrastructure',
+  },
+  {
+    id: 'REQ-002',
+    title: 'Pothole Repair',
+    description: 'Large pothole on Oak Street causing traffic issues',
+    location: 'Oak Street',
+    status: 'in_review',
+    priority: 'medium',
+    createdAt: new Date('2024-03-10'),
+    updatedAt: new Date('2024-03-12'),
+    requestedBy: 'Jane Smith',
+    category: 'Road Maintenance',
+  },
+  {
+    id: 'REQ-003',
+    title: 'Park Bench Installation',
+    description: 'Request for new bench in Central Park',
+    location: 'Central Park',
+    status: 'approved',
+    priority: 'low',
+    createdAt: new Date('2024-02-20'),
+    updatedAt: new Date('2024-03-01'),
+    requestedBy: 'Bob Johnson',
+    category: 'Parks',
   },
 ];
 
