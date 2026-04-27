@@ -115,8 +115,8 @@ export function RequestList({ requests, showNewButton = true }: RequestListProps
 
       {/* Requests List */}
       <div className="space-y-4">
-        {filteredRequests.length > 0 ? (
-          filteredRequests.map((request) => (
+        {filteredRequests?.length > 0 ? (
+          filteredRequests?.map((request) => (
             <Link key={request.id} href={`/requests/${request.id}`}>
               <Card className="p-4 md:p-6 hover:shadow-lg transition-shadow cursor-pointer">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-start">
