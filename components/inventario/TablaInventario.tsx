@@ -11,11 +11,16 @@ export function TablaInventario() {
   const [productos] = useState<ProductoInventario[]>(mockProductos);
   const [alertas] = useState<AlertaInventario[]>(mockAlertas);
   const [busqueda, setBusqueda] = useState('');
+  const TIPO_CAMBIO_DOLAR = 481;
 
   const productosFiltrados = productos.filter(p =>
     p.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
     p.codigo.toLowerCase().includes(busqueda.toLowerCase())
   );
+
+  const convertirADolar = (bolivares: number) => bolivares / TIPO_CAMBIO_DOLAR;
+  const formatearBs = (valor: number) => `Bs. ${valor.toLocaleString('es-VE')}`;
+  const formatearUsd = (valor: number) => `$${convertirADolar(valor).toFixed(2)}`;
 
   const obtenerEstadoStock = (producto: ProductoInventario) => {
     if (producto.stockActual <= producto.stockMinimo) {
@@ -78,8 +83,8 @@ export function TablaInventario() {
               <th className="px-6 py-3 text-center text-sm font-semibold text-gray-700">Mínimo</th>
               <th className="px-6 py-3 text-center text-sm font-semibold text-gray-700">Máximo</th>
               <th className="px-6 py-3 text-center text-sm font-semibold text-gray-700">Estado</th>
-              <th className="px-6 py-3 text-right text-sm font-semibold text-gray-700">Precio Unit.</th>
-              <th className="px-6 py-3 text-right text-sm font-semibold text-gray-700">Valor Total</th>
+              <th className="px-6 py-3 text-right text-sm font-semibold text-gray-700">Precio Unit. (Bs / USD)</th>
+              <th className="px-6 py-3 text-right text-sm font-semibold text-gray-700">Valor Total (Bs / USD)</th>
             </tr>
           </thead>
           <tbody className="divide-y">
@@ -120,10 +125,16 @@ export function TablaInventario() {
                     </div>
                   </td>
                   <td className="px-6 py-4 text-right text-sm font-medium text-gray-900">
-                    ${producto.precioUnitario.toLocaleString()}
+                    <div>
+                      <p>{formatearBs(producto.precioUnitario)}</p>
+                      <p className="text-xs text-gray-500">{formatearUsd(producto.precioUnitario)}</p>
+                    </div>
                   </td>
                   <td className="px-6 py-4 text-right text-sm font-bold text-gray-900">
-                    ${valorTotal.toLocaleString()}
+                    <div>
+                      <p>{formatearBs(valorTotal)}</p>
+                      <p className="text-xs text-gray-500">{formatearUsd(valorTotal)}</p>
+                    </div>
                   </td>
                 </tr>
               );
@@ -151,7 +162,10 @@ export function TablaInventario() {
         <Card className="p-4">
           <p className="text-sm text-gray-600 mb-1">Valor Total Inventario</p>
           <p className="text-2xl font-bold text-gray-900">
-            ${(productos.reduce((sum, p) => sum + (p.stockActual * p.precioUnitario), 0)).toLocaleString()}
+            {formatearBs(productos.reduce((sum, p) => sum + (p.stockActual * p.precioUnitario), 0))}
+          </p>
+          <p className="text-sm text-gray-500 mt-1">
+            {formatearUsd(productos.reduce((sum, p) => sum + (p.stockActual * p.precioUnitario), 0))}
           </p>
         </Card>
       </div>
