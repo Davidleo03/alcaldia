@@ -98,14 +98,7 @@ export default function LoginPage() {
               {isLoading ? 'Iniciando sesión...' : 'Ingresar'}
             </Button>
 
-            <div className="mt-4 p-3 bg-yellow-50 rounded border border-yellow-300 text-sm">
-              <p className="font-semibold text-yellow-900 mb-2">Credenciales de Demostración:</p>
-              <div className="space-y-1 text-yellow-800 text-xs">
-                <p><strong>Admin:</strong> admin@alcaldia.gov / admin123</p>
-                <p><strong>Usuario TI:</strong> it@alcaldia.gov / it123</p>
-                <p><strong>Usuario RH:</strong> hr@alcaldia.gov / hr123</p>
-              </div>
-            </div>
+            
           </form>
         </CardContent>
       </Card>
