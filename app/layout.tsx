@@ -1,14 +1,15 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import { AuthProvider } from '@/providers/AuthProvider'
 import './globals.css'
 
 const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Municipal Services Portal',
-  description: 'Municipal Service Request Management System',
+  title: 'Alcaldía Zamora',
+  description: 'City Hall Inventory and Request Management System',
   generator: 'v0.app',
   icons: {
     icon: [
@@ -21,11 +22,11 @@ export const metadata: Metadata = {
         media: '(prefers-color-scheme: dark)',
       },
       {
-        url: '/alcaldia.png',
+        url: '/favicon.png',
         type: 'image/svg+xml',
       },
     ],
-    apple: '/alcaldia.png',
+    apple: '/apple-icon.png',
   },
 }
 
@@ -35,9 +36,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className="bg-white">
-      <body className="font-sans antialiased bg-white text-gray-900">
-        {children}
+    <html lang="es" className="bg-background">
+      <body className="font-sans antialiased">
+        <AuthProvider>
+          {children}
+        </AuthProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>
