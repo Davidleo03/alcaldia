@@ -11,6 +11,7 @@ import { useInventory } from '@/hooks/useStorage';
 import { useAuth } from '@/hooks/useAuth';
 import { InventoryItem } from '@/lib/types';
 import { Plus } from 'lucide-react';
+import { toast } from '@/hooks/use-toast';
 import {
   createInventoryItem,
   updateInventoryItem,
@@ -19,7 +20,7 @@ import {
 } from '@/lib/storage';
 
 export default function InventoryPage() {
-  const { inventory, setInventory } = useInventory();
+  const { inventory } = useInventory();
   const { session } = useAuth();
   const [formOpen, setFormOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
@@ -62,6 +63,12 @@ export default function InventoryPage() {
           affectedRecordId: data.id,
         });
       }
+
+      toast({
+        title: 'Artículo actualizado',
+        description: `El registro ${data.name} se actualizó correctamente.`,
+        variant: 'default',
+      });
     } else {
       // Create
       const newItem: InventoryItem = {
@@ -88,9 +95,14 @@ export default function InventoryPage() {
           affectedRecordId: newItem.id,
         });
       }
+
+      toast({
+        title: 'Artículo creado',
+        description: `El registro ${data.name} se agregó correctamente.`,
+        variant: 'default',
+      });
     }
 
-    setInventory([...inventory]);
     setFormOpen(false);
   };
 
@@ -108,7 +120,12 @@ export default function InventoryPage() {
         affectedRecordId: selectedItem.id,
       });
 
-      setInventory(inventory.filter(item => item.id !== selectedItem.id));
+      toast({
+        title: 'Artículo eliminado',
+        description: `El registro ${selectedItem.name} se eliminó correctamente.`,
+        variant: 'destructive',
+      });
+
       setDeleteOpen(false);
       setSelectedItem(undefined);
     }

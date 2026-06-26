@@ -72,9 +72,9 @@ export function StockLevelsChart() {
 export function CategoryBreakdown() {
   const { inventory } = useInventory();
 
-  const categoryData = inventory.reduce(
+  const categoryData = inventory.reduce<Array<{ name: string; value: number }>>(
     (acc, item) => {
-      const existing = acc.find(c => c.name === item.category);
+      const existing = acc.find((c: { name: string; value: number }) => c.name === item.category);
       if (existing) {
         existing.value += item.quantity;
       } else {
@@ -82,7 +82,7 @@ export function CategoryBreakdown() {
       }
       return acc;
     },
-    [] as Array<{ name: string; value: number }>
+    []
   );
 
   const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899'];
@@ -106,7 +106,7 @@ export function CategoryBreakdown() {
               fill="#8884d8"
               dataKey="value"
             >
-              {categoryData.map((entry, index) => (
+              {categoryData.map((entry: { name: string; value: number }, index: number) => (
                 <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
               ))}
             </Pie>

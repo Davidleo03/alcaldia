@@ -41,8 +41,9 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { useUsers, useDepartments } from '@/hooks/useStorage';
 import { useAuth } from '@/hooks/useAuth';
-import { User } from '@/lib/types';
+import { User, UserRole } from '@/lib/types';
 import { Plus, MoreHorizontal } from 'lucide-react';
+import { toast } from '@/hooks/use-toast';
 import {
   createUser,
   updateUser,
@@ -51,17 +52,23 @@ import {
 } from '@/lib/storage';
 
 export default function UsersPage() {
-  const { users, setUsers } = useUsers();
+  const { users } = useUsers();
   const { departments } = useDepartments();
   const { session } = useAuth();
   const [formOpen, setFormOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | undefined>();
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    email: string;
+    name: string;
+    password: string;
+    role: UserRole;
+    departmentId: string;
+  }>({
     email: '',
     name: '',
     password: '',
-    role: 'department-user' as const,
+    role: 'department-user',
     departmentId: '',
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -138,6 +145,12 @@ export default function UsersPage() {
           affectedRecordId: selectedUser.id,
         });
       }
+
+      toast({
+        title: 'Usuario actualizado',
+        description: `El usuario ${formData.email} se actualizó correctamente.`,
+        variant: 'default',
+      });
     } else {
       const newUser: User = {
         id: `user-${Date.now()}`,
@@ -163,9 +176,14 @@ export default function UsersPage() {
             affectedRecordId: newUser.id,
           });
       }
+
+      toast({
+        title: 'Usuario creado',
+        description: `El usuario ${formData.email} se registró correctamente.`,
+        variant: 'default',
+      });
     }
 
-    setUsers([...users]);
     setFormOpen(false);
   };
 
@@ -183,7 +201,12 @@ export default function UsersPage() {
         affectedRecordId: selectedUser.id,
       });
 
-      setUsers(users.filter(u => u.id !== selectedUser.id));
+      toast({
+        title: 'Usuario eliminado',
+        description: `El usuario ${selectedUser.email} se eliminó correctamente.`,
+        variant: 'destructive',
+      });
+
       setDeleteOpen(false);
       setSelectedUser(undefined);
     }

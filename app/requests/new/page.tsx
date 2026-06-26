@@ -12,6 +12,7 @@ import { RequestItem } from '@/lib/types';
 import { REQUEST_TYPES } from '@/lib/constants';
 import { createRequest, createAuditLog } from '@/lib/storage';
 import { Plus, X } from 'lucide-react';
+import { toast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 
 export default function NewRequestPage() {
@@ -101,7 +102,12 @@ export default function NewRequestPage() {
       affectedRecordId: request.id,
     });
 
-    setRequests([...requests, request]);
+    toast({
+      title: 'Solicitud enviada',
+      description: 'La solicitud de material se creó correctamente.',
+      variant: 'default',
+    });
+
     router.push('/requests');
   };
 

@@ -1,96 +1,99 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
   getUsers,
-  setUsers,
+  setUsers as persistUsers,
   getDepartments,
-  setDepartments,
+  setDepartments as persistDepartments,
   getInventory,
-  setInventory,
+  setInventory as persistInventory,
   getRequests,
-  setRequests,
+  setRequests as persistRequests,
   getAuditLogs,
+  setAuditLogs as persistAuditLogs,
   createAuditLog,
-  User,
-  Department,
-  InventoryItem,
-  MaterialRequest,
-  AuditLog,
+  STORAGE_SYNC_EVENT,
+  STORAGE_KEYS,
 } from '@/lib/storage';
-import { AuditAction, AuditModule } from '@/lib/types';
+import type { User, Department, InventoryItem, MaterialRequest, AuditLog } from '@/lib/types';
 
-export function useUsers() {
-  const [users, setUserState] = useState<User[]>([]);
+function useStorageCollection<T>(
+  storageKey: string,
+  read: () => T[],
+  write: (value: T[]) => void,
+) {
+  const [state, setState] = useState<T[]>(read);
+
+  const syncFromStorage = useCallback(() => {
+    setState(read());
+  }, [read]);
 
   useEffect(() => {
-    setUserState(getUsers());
-  }, []);
+    syncFromStorage();
 
-  const updateUsers = useCallback((newUsers: User[]) => {
-    setUserState(newUsers);
-    setUsers(newUsers);
-  }, []);
+    const handleStorageChange = (event: Event) => {
+      const detail = (event as CustomEvent<{ key?: string }>).detail;
+      if (!detail?.key || detail.key === storageKey) {
+        syncFromStorage();
+        window.setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      }
+    };
 
-  return { users, setUsers: updateUsers };
+    window.addEventListener(STORAGE_SYNC_EVENT, handleStorageChange as EventListener);
+    window.addEventListener('storage', handleStorageChange as EventListener);
+
+    return () => {
+      window.removeEventListener(STORAGE_SYNC_EVENT, handleStorageChange as EventListener);
+      window.removeEventListener('storage', handleStorageChange as EventListener);
+    };
+  }, [storageKey, syncFromStorage]);
+
+  const updateState = useCallback((valueOrUpdater: T[] | ((prev: T[]) => T[])) => {
+    setState(prev => {
+      const nextValue = typeof valueOrUpdater === 'function' ? valueOrUpdater(prev) : valueOrUpdater;
+      write(nextValue);
+      return nextValue;
+    });
+  }, [write]);
+
+  return { state, setState: updateState, syncFromStorage };
+}
+
+export function useUsers() {
+  const { state: users, setState: setUsersState } = useStorageCollection<User>(STORAGE_KEYS.USERS, getUsers, persistUsers);
+
+  return { users, setUsers: setUsersState };
 }
 
 export function useDepartments() {
-  const [departments, setDepartmentState] = useState<Department[]>([]);
+  const { state: departments, setState: setDepartmentsState } = useStorageCollection<Department>(STORAGE_KEYS.DEPARTMENTS, getDepartments, persistDepartments);
 
-  useEffect(() => {
-    setDepartmentState(getDepartments());
-  }, []);
-
-  const updateDepartments = useCallback((newDepartments: Department[]) => {
-    setDepartmentState(newDepartments);
-    setDepartments(newDepartments);
-  }, []);
-
-  return { departments, setDepartments: updateDepartments };
+  return { departments, setDepartments: setDepartmentsState };
 }
 
 export function useInventory() {
-  const [inventory, setInventoryState] = useState<InventoryItem[]>([]);
+  const { state: inventory, setState: setInventoryState } = useStorageCollection<InventoryItem>(STORAGE_KEYS.INVENTORY, getInventory, persistInventory);
 
-  useEffect(() => {
-    setInventoryState(getInventory());
-  }, []);
-
-  const updateInventory = useCallback((newInventory: InventoryItem[]) => {
-    setInventoryState(newInventory);
-    setInventory(newInventory);
-  }, []);
-
-  return { inventory, setInventory: updateInventory };
+  return { inventory, setInventory: setInventoryState };
 }
 
 export function useRequests() {
-  const [requests, setRequestState] = useState<MaterialRequest[]>([]);
+  const { state: requests, setState: setRequestsState } = useStorageCollection<MaterialRequest>(STORAGE_KEYS.REQUESTS, getRequests, persistRequests);
 
-  useEffect(() => {
-    setRequestState(getRequests());
-  }, []);
-
-  const updateRequests = useCallback((newRequests: MaterialRequest[]) => {
-    setRequestState(newRequests);
-    setRequests(newRequests);
-  }, []);
-
-  return { requests, setRequests: updateRequests };
+  return { requests, setRequests: setRequestsState };
 }
 
 export function useAuditLogs() {
-  const [logs, setLogsState] = useState<AuditLog[]>([]);
-
-  useEffect(() => {
-    setLogsState(getAuditLogs());
-  }, []);
+  const { state: logs, setState: setLogsState, syncFromStorage } = useStorageCollection<AuditLog>(STORAGE_KEYS.AUDIT_LOGS, getAuditLogs, persistAuditLogs);
 
   const addLog = useCallback((log: AuditLog) => {
     createAuditLog(log);
     setLogsState(prev => [...prev, log]);
-  }, []);
+    syncFromStorage();
+  }, [setLogsState, syncFromStorage]);
 
   return { logs, addLog };
 }

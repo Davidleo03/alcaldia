@@ -3,7 +3,7 @@ import { getUserByEmail, getSession, setSession, createAuditLog } from './storag
 
 export function validatePassword(password: string): boolean {
   // Simple validation - at least 6 characters
-  return password && password.length >= 6;
+  return typeof password === 'string' && password.length >= 6;
 }
 
 export function authenticateUser(email: string, password: string): { success: boolean; session?: AuthSession; error?: string } {

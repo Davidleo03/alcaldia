@@ -42,6 +42,7 @@ import { useDepartments } from '@/hooks/useStorage';
 import { useAuth } from '@/hooks/useAuth';
 import { Department } from '@/lib/types';
 import { Plus, MoreHorizontal } from 'lucide-react';
+import { toast } from '@/hooks/use-toast';
 import {
   createDepartment,
   updateDepartment,
@@ -50,7 +51,7 @@ import {
 } from '@/lib/storage';
 
 export default function DepartmentsPage() {
-  const { departments, setDepartments } = useDepartments();
+  const { departments } = useDepartments();
   const { session } = useAuth();
   const [formOpen, setFormOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
@@ -99,6 +100,12 @@ export default function DepartmentsPage() {
           affectedRecordId: selectedDept.id,
         });
       }
+
+      toast({
+        title: 'Departamento actualizado',
+        description: `El departamento ${formData.name} se actualizó correctamente.`,
+        variant: 'default',
+      });
     } else {
       const newDept: Department = {
         id: `dept-${Date.now()}`,
@@ -120,9 +127,14 @@ export default function DepartmentsPage() {
           affectedRecordId: newDept.id,
         });
       }
+
+      toast({
+        title: 'Departamento creado',
+        description: `El departamento ${formData.name} se registró correctamente.`,
+        variant: 'default',
+      });
     }
 
-    setDepartments([...departments]);
     setFormOpen(false);
   };
 
@@ -140,7 +152,12 @@ export default function DepartmentsPage() {
         affectedRecordId: selectedDept.id,
       });
 
-      setDepartments(departments.filter(d => d.id !== selectedDept.id));
+      toast({
+        title: 'Departamento eliminado',
+        description: `El departamento ${selectedDept.name} se eliminó correctamente.`,
+        variant: 'destructive',
+      });
+
       setDeleteOpen(false);
       setSelectedDept(undefined);
     }

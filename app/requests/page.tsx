@@ -28,6 +28,7 @@ import { useRequests, useInventory, useDepartments, useUsers } from '@/hooks/use
 import { useAuth } from '@/hooks/useAuth';
 import { MaterialRequest } from '@/lib/types';
 import { Plus, Search, Eye } from 'lucide-react';
+import { toast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 import { updateRequest, updateInventoryItem, createAuditLog } from '@/lib/storage';
 import { format } from 'date-fns';
@@ -41,7 +42,7 @@ const statusColors: Record<string, string> = {
 const statusLabel = (s: string) => (s === 'pending' ? 'Pendiente' : s === 'approved' ? 'Aprobado' : 'Rechazado');
 
 export default function RequestsPage() {
-  const { requests, setRequests } = useRequests();
+  const { requests } = useRequests();
   const { inventory } = useInventory();
   const { departments } = useDepartments();
   const { users } = useUsers();
@@ -127,7 +128,12 @@ export default function RequestsPage() {
       affectedRecordId: selectedRequest.id,
     });
 
-    setRequests([...requests]);
+    toast({
+      title: 'Solicitud aprobada',
+      description: `La solicitud ${selectedRequest.reason} se aprobó correctamente.`,
+      variant: 'default',
+    });
+
     setApprovalDialogOpen(false);
     setDetailsOpen(false);
   };
@@ -158,7 +164,12 @@ export default function RequestsPage() {
       affectedRecordId: selectedRequest.id,
     });
 
-    setRequests([...requests]);
+    toast({
+      title: 'Solicitud rechazada',
+      description: `La solicitud ${selectedRequest.reason} se rechazó correctamente.`,
+      variant: 'destructive',
+    });
+
     setApprovalDialogOpen(false);
     setDetailsOpen(false);
     setRejectionReason('');

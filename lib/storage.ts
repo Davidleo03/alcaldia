@@ -20,6 +20,14 @@ const KEYS = {
   INITIALIZED: `${STORAGE_PREFIX}:initialized`,
 };
 
+export const STORAGE_KEYS = KEYS;
+export const STORAGE_SYNC_EVENT = `${STORAGE_PREFIX}:sync`;
+
+function notifyStorageChange(key: string): void {
+  if (typeof window === 'undefined') return;
+  window.dispatchEvent(new CustomEvent(STORAGE_SYNC_EVENT, { detail: { key } }));
+}
+
 // Generic storage operations
 function getItem<T>(key: string, defaultValue: T): T {
   if (typeof window === 'undefined') return defaultValue;
@@ -35,6 +43,7 @@ function setItem<T>(key: string, value: T): void {
   if (typeof window === 'undefined') return;
   try {
     localStorage.setItem(key, JSON.stringify(value));
+    notifyStorageChange(key);
   } catch (error) {
     console.error(`Failed to save to localStorage: ${error}`);
   }
@@ -336,4 +345,5 @@ export function initializeSampleData(): void {
   setUsers(users);
   setInventory(inventory);
   localStorage.setItem(KEYS.INITIALIZED, 'true');
+  notifyStorageChange(KEYS.INITIALIZED);
 }
