@@ -72,17 +72,18 @@ export function InventoryTable({ items, onEdit, onDelete }: InventoryTableProps)
           <TableHeader>
             <TableRow className="bg-muted">
               <TableHead>Nombre</TableHead>
-              <TableHead>Categoría</TableHead>
+              <TableHead className="hidden md:table-cell">Categoría</TableHead>
               <TableHead className="text-right">Cantidad</TableHead>
-              <TableHead className="text-right">Stock mínimo</TableHead>
-              <TableHead>Unidad</TableHead>
-              <TableHead className="text-center">Estado</TableHead>
+              <TableHead className="hidden md:table-cell text-right">Stock mínimo</TableHead>
+              <TableHead className="hidden md:table-cell">Unidad</TableHead>
+              <TableHead className="hidden md:table-cell text-center">Estado</TableHead>
               <TableHead className="text-right">Acciones</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {filteredItems.length === 0 ? (
               <TableRow>
+                {/* Mantenemos colSpan={7} para cubrir todas las columnas originales */}
                 <TableCell colSpan={7} className="text-center py-8 text-muted-foreground/70">
                   No se encontraron artículos
                 </TableCell>
@@ -91,17 +92,22 @@ export function InventoryTable({ items, onEdit, onDelete }: InventoryTableProps)
               filteredItems.map((item) => (
                 <TableRow key={item.id} className={isLowStock(item) ? 'bg-destructive/20' : ''}>
                   <TableCell className="font-medium">{item.name}</TableCell>
-                  <TableCell>{item.category}</TableCell>
+
+                  <TableCell className="hidden md:table-cell">{item.category}</TableCell>
+
                   <TableCell className="text-right font-semibold">
                     {item.quantity}
                   </TableCell>
-                  <TableCell className="text-right text-muted-foreground">
+
+                  <TableCell className="hidden md:table-cell text-right text-muted-foreground">
                     {item.minStock}
                   </TableCell>
-                  <TableCell className="text-sm text-muted-foreground">
+
+                  <TableCell className="hidden md:table-cell text-sm text-muted-foreground">
                     {item.unitOfMeasure}
                   </TableCell>
-                  <TableCell className="text-center">
+
+                  <TableCell className="hidden md:table-cell text-center">
                     {isLowStock(item) ? (
                       <Badge className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
                         <AlertCircle className="h-3 w-3 mr-1" />
@@ -113,6 +119,7 @@ export function InventoryTable({ items, onEdit, onDelete }: InventoryTableProps)
                       </Badge>
                     )}
                   </TableCell>
+
                   <TableCell className="text-right">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
@@ -120,10 +127,8 @@ export function InventoryTable({ items, onEdit, onDelete }: InventoryTableProps)
                           <MoreHorizontal className="h-4 w-4" />
                         </Button>
                       </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => onEdit(item)}>
-                          Editar
-                        </DropdownMenuItem>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem onClick={() => onEdit(item)}>Editar</DropdownMenuItem>
                         <DropdownMenuItem
                           onClick={() => onDelete(item)}
                           className="text-destructive"

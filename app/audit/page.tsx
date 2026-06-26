@@ -93,7 +93,7 @@ export default function AuditPage() {
                   className="px-3 py-2 border border-border rounded-md bg-input text-card-foreground text-sm"
                 >
                   {actions.map(action => (
-                      <option key={action} value={action}>
+                    <option key={action} value={action}>
                       {action === 'all' ? 'Todas las acciones' : action}
                     </option>
                   ))}
@@ -105,7 +105,7 @@ export default function AuditPage() {
                   className="px-3 py-2 border border-border rounded-md bg-input text-card-foreground text-sm"
                 >
                   {modules.map(module => (
-                      <option key={module} value={module}>
+                    <option key={module} value={module}>
                       {module === 'all' ? 'Todos los módulos' : module}
                     </option>
                   ))}
@@ -116,18 +116,22 @@ export default function AuditPage() {
             <div className="border rounded-lg overflow-hidden">
               <Table>
                 <TableHeader>
-                    <TableRow className="bg-muted">
+                  <TableRow className="bg-muted">
+                    {/* Estas 3 se verán siempre */}
                     <TableHead>Fecha</TableHead>
                     <TableHead>Usuario</TableHead>
                     <TableHead>Acción</TableHead>
-                    <TableHead>Módulo</TableHead>
-                    <TableHead>Descripción</TableHead>
+
+                    {/* Estas 2 se ocultarán en móviles y aparecerán a partir de tamaño md (768px+) */}
+                    <TableHead className="hidden md:table-cell">Módulo</TableHead>
+                    <TableHead className="hidden md:table-cell">Descripción</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {filteredLogs.length === 0 ? (
                     <TableRow>
-                        <TableCell colSpan={5} className="text-center py-8 text-muted-foreground/80">
+                      {/* Mantenemos el colSpan en 5 para que ocupe todo el ancho */}
+                      <TableCell colSpan={5} className="text-center py-8 text-muted-foreground/80">
                         No se encontraron registros de auditoría
                       </TableCell>
                     </TableRow>
@@ -145,10 +149,12 @@ export default function AuditPage() {
                             {log.action}
                           </Badge>
                         </TableCell>
-                        <TableCell className="text-sm capitalize">
+
+                        {/* Aquí aplicamos la misma lógica que en los headers */}
+                        <TableCell className="hidden md:table-cell text-sm capitalize">
                           {log.module}
                         </TableCell>
-                        <TableCell className="text-sm text-muted-foreground">
+                        <TableCell className="hidden md:table-cell text-sm text-muted-foreground">
                           {log.description}
                         </TableCell>
                       </TableRow>

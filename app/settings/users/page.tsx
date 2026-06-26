@@ -167,14 +167,14 @@ export default function UsersPage() {
 
       if (session) {
         createAuditLog({
-            id: `audit-${Date.now()}`,
-            userId: session.userId,
-            action: 'CREATE',
-            module: 'users',
-            description: `Creó usuario: ${formData.email}`,
-            timestamp: new Date().toISOString(),
-            affectedRecordId: newUser.id,
-          });
+          id: `audit-${Date.now()}`,
+          userId: session.userId,
+          action: 'CREATE',
+          module: 'users',
+          description: `Creó usuario: ${formData.email}`,
+          timestamp: new Date().toISOString(),
+          affectedRecordId: newUser.id,
+        });
       }
 
       toast({
@@ -239,12 +239,14 @@ export default function UsersPage() {
             <div className="border rounded-lg overflow-hidden">
               <Table>
                 <TableHeader>
-                    <TableRow className="bg-muted">
+                  <TableRow className="bg-muted">
                     <TableHead>Nombre</TableHead>
-                    <TableHead>Correo</TableHead>
+                    {/* Ocultas en móvil */}
+                    <TableHead className="hidden md:table-cell">Correo</TableHead>
                     <TableHead>Rol</TableHead>
-                    <TableHead>Departamento</TableHead>
-                    <TableHead>Estado</TableHead>
+                    <TableHead className="hidden md:table-cell">Departamento</TableHead>
+                    <TableHead className="hidden md:table-cell">Estado</TableHead>
+                    {/* Siempre visible */}
                     <TableHead className="text-right">Acciones</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -259,20 +261,27 @@ export default function UsersPage() {
                     users.map((user) => (
                       <TableRow key={user.id}>
                         <TableCell className="font-medium">{user.name}</TableCell>
-                        <TableCell className="text-muted-foreground">{user.email}</TableCell>
-                        <TableCell>
-                              <Badge className={user.role === 'admin' ? 'bg-accent text-accent-foreground hover:bg-accent/90' : 'bg-primary text-primary-foreground hover:bg-primary/90'}>
-                                {user.role === 'admin' ? 'Administrador' : 'Usuario de Departamento'}
-                              </Badge>
+
+                        <TableCell className="hidden md:table-cell text-muted-foreground">
+                          {user.email}
                         </TableCell>
-                        <TableCell className="text-muted-foreground">
+
+                        <TableCell>
+                          <Badge className={user.role === 'admin' ? 'bg-accent text-accent-foreground hover:bg-accent/90' : 'bg-primary text-primary-foreground hover:bg-primary/90'}>
+                            {user.role === 'admin' ? 'Administrador' : 'Usuario de Departamento'}
+                          </Badge>
+                        </TableCell>
+
+                        <TableCell className="hidden md:table-cell text-muted-foreground">
                           {getDepartmentName(user.departmentId)}
                         </TableCell>
-                        <TableCell>
+
+                        <TableCell className="hidden md:table-cell">
                           <Badge className={user.isActive ? 'bg-success text-success-foreground hover:bg-success/90' : 'bg-muted text-muted-foreground hover:bg-muted/90'}>
                             {user.isActive ? 'Activo' : 'Inactivo'}
                           </Badge>
                         </TableCell>
+
                         <TableCell className="text-right">
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
@@ -370,9 +379,8 @@ export default function UsersPage() {
                     id="department"
                     value={formData.departmentId}
                     onChange={(e) => setFormData(prev => ({ ...prev, departmentId: e.target.value }))}
-                    className={`w-full px-3 py-2 border rounded-md bg-input text-card-foreground ${
-                      errors.departmentId ? 'border-destructive' : 'border-border'
-                    }`}
+                    className={`w-full px-3 py-2 border rounded-md bg-input text-card-foreground ${errors.departmentId ? 'border-destructive' : 'border-border'
+                      }`}
                   >
                     <option value="">Seleccionar departamento</option>
                     {departments.map(dept => (

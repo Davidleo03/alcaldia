@@ -190,13 +190,13 @@ export default function RequestsPage() {
             </p>
           </div>
           {session?.role === 'department-user' && (
-              <Button
-                onClick={() => router.push('/requests/new')}
-                className="bg-primary hover:bg-primary/90"
-              >
-                <Plus className="h-4 w-4 mr-2" />
-                Nueva Solicitud
-              </Button>
+            <Button
+              onClick={() => router.push('/requests/new')}
+              className="bg-primary hover:bg-primary/90"
+            >
+              <Plus className="h-4 w-4 mr-2" />
+              Nueva Solicitud
+            </Button>
           )}
         </div>
 
@@ -234,14 +234,19 @@ export default function RequestsPage() {
             <div className="border rounded-lg overflow-hidden">
               <Table>
                 <TableHeader>
-                    <TableRow className="bg-muted">
-                    <TableHead>Fecha</TableHead>
-                    <TableHead>Tipo</TableHead>
-                    {session?.role === 'admin' && <TableHead>Departamento</TableHead>}
-                    <TableHead>Motivo</TableHead>
+                  <TableRow className="bg-muted">
+                    {/* Columnas prioritarias (siempre visibles) */}
+                    {session?.role === 'admin' && (
+                      <TableHead>Departamento</TableHead>
+                    )}
                     <TableHead>Artículos</TableHead>
-                    <TableHead>Estado</TableHead>
                     <TableHead className="text-right">Acciones</TableHead>
+
+                    {/* Columnas ocultas en móvil */}
+                    <TableHead className="hidden md:table-cell">Fecha</TableHead>
+                    <TableHead className="hidden md:table-cell">Tipo</TableHead>
+                    <TableHead className="hidden md:table-cell">Motivo</TableHead>
+                    <TableHead className="hidden md:table-cell">Estado</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -257,22 +262,13 @@ export default function RequestsPage() {
                   ) : (
                     filteredRequests.map((request) => (
                       <TableRow key={request.id}>
-                        <TableCell className="text-sm">
-                          {format(new Date(request.requestDate), 'MMM dd, yyyy')}
-                        </TableCell>
-                        <TableCell className="capitalize">{request.type}</TableCell>
+                        {/* Prioritarias */}
                         {session?.role === 'admin' && (
                           <TableCell className="text-sm">
                             {getDepartmentName(request.departmentId)}
                           </TableCell>
                         )}
-                        <TableCell className="text-sm">{request.reason}</TableCell>
                         <TableCell className="text-sm">{request.items.length} artículo(s)</TableCell>
-                        <TableCell>
-                          <Badge className={statusColors[request.status]}>
-                            {statusLabel(request.status)}
-                          </Badge>
-                        </TableCell>
                         <TableCell className="text-right">
                           <Button
                             variant="ghost"
@@ -281,6 +277,18 @@ export default function RequestsPage() {
                           >
                             <Eye className="h-4 w-4" />
                           </Button>
+                        </TableCell>
+
+                        {/* Ocultas en móvil */}
+                        <TableCell className="hidden md:table-cell text-sm">
+                          {format(new Date(request.requestDate), 'MMM dd, yyyy')}
+                        </TableCell>
+                        <TableCell className="hidden md:table-cell capitalize">{request.type}</TableCell>
+                        <TableCell className="hidden md:table-cell text-sm">{request.reason}</TableCell>
+                        <TableCell className="hidden md:table-cell">
+                          <Badge className={statusColors[request.status]}>
+                            {statusLabel(request.status)}
+                          </Badge>
                         </TableCell>
                       </TableRow>
                     ))
