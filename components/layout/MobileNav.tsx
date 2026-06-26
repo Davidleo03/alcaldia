@@ -46,7 +46,7 @@ export function MobileNav() {
   const items = navigationItems[session.role];
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 border-t-2 border-gray-700 bg-gray-900">
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 border-t-2 border-sidebar-border bg-sidebar">
       <div className="flex justify-around h-16">
         {items.map((item) => {
           const Icon = iconMap[item.icon as keyof typeof iconMap];
@@ -59,8 +59,8 @@ export function MobileNav() {
               className={cn(
                 'flex flex-col items-center justify-center flex-1 text-xs font-medium transition-colors',
                 isActive
-                  ? 'text-yellow-400 border-t-4 border-red-600 text-yellow-400'
-                  : 'text-gray-400 hover:text-gray-200'
+                  ? 'text-primary-foreground border-t-4 border-primary bg-sidebar/60'
+                  : 'text-sidebar-foreground/70 hover:text-sidebar-foreground'
               )}
             >
               <Icon className="h-5 w-5 mb-1" />

@@ -151,10 +151,10 @@ export default function DepartmentsPage() {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-slate-900">Departamentos</h1>
-            <p className="text-slate-600 mt-2">Gestiona los departamentos de tu organización</p>
+            <h1 className="text-3xl font-bold text-foreground">Departamentos</h1>
+            <p className="text-muted-foreground/80 mt-2">Gestiona los departamentos de tu organización</p>
           </div>
-          <Button onClick={handleAdd} className="bg-blue-600 hover:bg-blue-700">
+          <Button onClick={handleAdd} className="bg-primary hover:bg-primary/90">
             <Plus className="h-4 w-4 mr-2" />
             Agregar departamento
           </Button>
@@ -168,7 +168,7 @@ export default function DepartmentsPage() {
             <div className="border rounded-lg overflow-hidden">
               <Table>
                 <TableHeader>
-                    <TableRow className="bg-slate-50">
+                    <TableRow className="bg-muted/10">
                     <TableHead>Nombre</TableHead>
                     <TableHead>Descripción</TableHead>
                     <TableHead className="text-right">Acciones</TableHead>
@@ -177,7 +177,7 @@ export default function DepartmentsPage() {
                 <TableBody>
                   {departments.length === 0 ? (
                     <TableRow>
-                        <TableCell colSpan={3} className="text-center py-8 text-slate-500">
+                        <TableCell colSpan={3} className="text-center py-8 text-muted-foreground/70">
                         No se encontraron departamentos
                       </TableCell>
                     </TableRow>
@@ -185,7 +185,7 @@ export default function DepartmentsPage() {
                     departments.map((dept) => (
                       <TableRow key={dept.id}>
                         <TableCell className="font-medium">{dept.name}</TableCell>
-                        <TableCell className="text-slate-600">{dept.description}</TableCell>
+                        <TableCell className="text-muted-foreground">{dept.description}</TableCell>
                         <TableCell className="text-right">
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
@@ -199,7 +199,7 @@ export default function DepartmentsPage() {
                               </DropdownMenuItem>
                               <DropdownMenuItem
                                 onClick={() => handleDelete(dept)}
-                                className="text-red-600"
+                                className="text-destructive"
                               >
                                 Eliminar
                               </DropdownMenuItem>
@@ -231,10 +231,10 @@ export default function DepartmentsPage() {
                   id="name"
                   value={formData.name}
                   onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                  className={errors.name ? 'border-red-500' : ''}
+                  className={errors.name ? 'border-destructive' : ''}
                   placeholder="p.ej., Departamento de TI"
                 />
-                {errors.name && <p className="text-xs text-red-600 mt-1">{errors.name}</p>}
+                {errors.name && <p className="text-xs text-destructive mt-1">{errors.name}</p>}
               </div>
 
               <div>
@@ -252,7 +252,7 @@ export default function DepartmentsPage() {
               <Button type="button" variant="outline" onClick={() => setFormOpen(false)}>
                 Cancelar
               </Button>
-              <Button type="button" onClick={handleSave} className="bg-blue-600 hover:bg-blue-700">
+              <Button type="button" onClick={handleSave} className="bg-primary hover:bg-primary/90">
                 {selectedDept ? 'Actualizar' : 'Agregar'}
               </Button>
             </DialogFooter>
@@ -269,7 +269,7 @@ export default function DepartmentsPage() {
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel onClick={() => setDeleteOpen(false)}>Cancelar</AlertDialogCancel>
-              <AlertDialogAction onClick={handleConfirmDelete} className="bg-red-600 hover:bg-red-700">
+              <AlertDialogAction onClick={handleConfirmDelete} className="bg-destructive hover:bg-destructive/90">
                 Eliminar
               </AlertDialogAction>
             </AlertDialogFooter>

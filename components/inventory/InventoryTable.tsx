@@ -46,7 +46,7 @@ export function InventoryTable({ items, onEdit, onDelete }: InventoryTableProps)
     <div className="space-y-4">
       <div className="flex flex-col md:flex-row gap-4">
         <div className="flex-1 relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-4 w-4" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground/70 h-4 w-4" />
           <Input
             placeholder="Buscar artículos..."
             value={search}
@@ -57,7 +57,7 @@ export function InventoryTable({ items, onEdit, onDelete }: InventoryTableProps)
         <select
           value={filterCategory}
           onChange={(e) => setFilterCategory(e.target.value)}
-          className="px-3 py-2 border border-slate-300 rounded-md bg-white text-sm"
+          className="px-3 py-2 border border-border rounded-md bg-card text-sm"
         >
           {categories.map(cat => (
             <option key={cat} value={cat}>
@@ -70,7 +70,7 @@ export function InventoryTable({ items, onEdit, onDelete }: InventoryTableProps)
       <div className="border rounded-lg overflow-hidden">
         <Table>
           <TableHeader>
-            <TableRow className="bg-slate-50">
+            <TableRow className="bg-muted/10">
               <TableHead>Nombre</TableHead>
               <TableHead>Categoría</TableHead>
               <TableHead className="text-right">Cantidad</TableHead>
@@ -83,32 +83,32 @@ export function InventoryTable({ items, onEdit, onDelete }: InventoryTableProps)
           <TableBody>
             {filteredItems.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={7} className="text-center py-8 text-slate-500">
+                <TableCell colSpan={7} className="text-center py-8 text-muted-foreground/70">
                   No se encontraron artículos
                 </TableCell>
               </TableRow>
             ) : (
               filteredItems.map((item) => (
-                <TableRow key={item.id} className={isLowStock(item) ? 'bg-red-50' : ''}>
+                <TableRow key={item.id} className={isLowStock(item) ? 'bg-destructive/20' : ''}>
                   <TableCell className="font-medium">{item.name}</TableCell>
                   <TableCell>{item.category}</TableCell>
                   <TableCell className="text-right font-semibold">
                     {item.quantity}
                   </TableCell>
-                  <TableCell className="text-right text-slate-600">
+                  <TableCell className="text-right text-muted-foreground">
                     {item.minStock}
                   </TableCell>
-                  <TableCell className="text-sm text-slate-600">
+                  <TableCell className="text-sm text-muted-foreground">
                     {item.unitOfMeasure}
                   </TableCell>
                   <TableCell className="text-center">
                     {isLowStock(item) ? (
-                      <Badge className="bg-red-100 text-red-800 hover:bg-red-100">
+                      <Badge className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
                         <AlertCircle className="h-3 w-3 mr-1" />
                         Stock bajo
                       </Badge>
                     ) : (
-                      <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
+                      <Badge className="bg-success text-success-foreground hover:bg-success/90">
                         En stock
                       </Badge>
                     )}
@@ -126,7 +126,7 @@ export function InventoryTable({ items, onEdit, onDelete }: InventoryTableProps)
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           onClick={() => onDelete(item)}
-                          className="text-red-600"
+                          className="text-destructive"
                         >
                           Eliminar
                         </DropdownMenuItem>

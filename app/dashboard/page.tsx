@@ -9,8 +9,8 @@ export default function DashboardPage() {
     <DashboardLayout>
       <div className="space-y-6">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900">Panel de control</h1>
-          <p className="text-slate-600 mt-2">Bienvenido al Sistema de Gestión de Inventarios</p>
+          <h1 className="text-3xl font-bold text-foreground">Panel de control</h1>
+          <p className="text-muted-foreground/80 mt-2">Bienvenido al Sistema de Gestión de Inventarios</p>
         </div>
 
         <QuickStats />

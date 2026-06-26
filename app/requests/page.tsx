@@ -33,9 +33,9 @@ import { updateRequest, updateInventoryItem, createAuditLog } from '@/lib/storag
 import { format } from 'date-fns';
 
 const statusColors: Record<string, string> = {
-  pending: 'bg-yellow-100 text-yellow-800 hover:bg-yellow-100',
-  approved: 'bg-green-100 text-green-800 hover:bg-green-100',
-  rejected: 'bg-red-100 text-red-800 hover:bg-red-100',
+  pending: 'bg-warning text-warning-foreground hover:bg-warning',
+  approved: 'bg-success text-success-foreground hover:bg-success',
+  rejected: 'bg-destructive text-destructive-foreground hover:bg-destructive',
 };
 
 const statusLabel = (s: string) => (s === 'pending' ? 'Pendiente' : s === 'approved' ? 'Aprobado' : 'Rechazado');
@@ -169,10 +169,10 @@ export default function RequestsPage() {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-slate-900">
+            <h1 className="text-3xl font-bold text-foreground">
               {session?.role === 'admin' ? 'Solicitudes de material' : 'Mis solicitudes'}
             </h1>
-            <p className="text-slate-600 mt-2">
+            <p className="text-muted-foreground/80 mt-2">
               {session?.role === 'admin'
                 ? 'Gestiona todas las solicitudes de material'
                 : 'Ver y gestionar tus solicitudes'}
@@ -181,7 +181,7 @@ export default function RequestsPage() {
           {session?.role === 'department-user' && (
               <Button
                 onClick={() => router.push('/requests/new')}
-                className="bg-blue-600 hover:bg-blue-700"
+                className="bg-primary hover:bg-primary/90"
               >
                 <Plus className="h-4 w-4 mr-2" />
                 Nueva Solicitud
@@ -197,7 +197,7 @@ export default function RequestsPage() {
             <div className="space-y-4 mb-4">
               <div className="flex flex-col md:flex-row gap-4">
                 <div className="flex-1 relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-4 w-4" />
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground/70 h-4 w-4" />
                   <Input
                     placeholder="Buscar solicitudes..."
                     value={search}
@@ -209,7 +209,7 @@ export default function RequestsPage() {
                 <select
                   value={filterStatus}
                   onChange={(e) => setFilterStatus(e.target.value)}
-                  className="px-3 py-2 border border-slate-300 rounded-md bg-white text-sm"
+                  className="px-3 py-2 border border-border rounded-md bg-card text-sm"
                 >
                   {statuses.map(status => (
                     <option key={status} value={status}>
@@ -223,7 +223,7 @@ export default function RequestsPage() {
             <div className="border rounded-lg overflow-hidden">
               <Table>
                 <TableHeader>
-                  <TableRow className="bg-slate-50">
+                  <TableRow className="bg-muted/10">
                     <TableHead>Fecha</TableHead>
                     <TableHead>Tipo</TableHead>
                     {session?.role === 'admin' && <TableHead>Departamento</TableHead>}
@@ -238,7 +238,7 @@ export default function RequestsPage() {
                     <TableRow>
                       <TableCell
                         colSpan={session?.role === 'admin' ? 7 : 6}
-                        className="text-center py-8 text-slate-500"
+                        className="text-center py-8 text-muted-foreground/70"
                       >
                         No se encontraron solicitudes
                       </TableCell>
@@ -292,25 +292,25 @@ export default function RequestsPage() {
                 {/* Request Info */}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <p className="text-xs font-semibold text-slate-600">Tipo</p>
+                    <p className="text-xs font-semibold text-muted-foreground/80">Tipo</p>
                     <p className="capitalize mt-1">{selectedRequest.type}</p>
                   </div>
                   <div>
-                    <p className="text-xs font-semibold text-slate-600">Estado</p>
+                    <p className="text-xs font-semibold text-muted-foreground/80">Estado</p>
                     <Badge className={statusColors[selectedRequest.status]} className="mt-1">
                       {statusLabel(selectedRequest.status)}
                     </Badge>
                   </div>
                   <div>
-                    <p className="text-xs font-semibold text-slate-600">Departamento</p>
+                    <p className="text-xs font-semibold text-muted-foreground/80">Departamento</p>
                     <p className="mt-1">{getDepartmentName(selectedRequest.departmentId)}</p>
                   </div>
                   <div>
-                    <p className="text-xs font-semibold text-slate-600">Solicitado por</p>
+                    <p className="text-xs font-semibold text-muted-foreground/80">Solicitado por</p>
                     <p className="mt-1">{getUserName(selectedRequest.userId)}</p>
                   </div>
                   <div className="col-span-2">
-                    <p className="text-xs font-semibold text-slate-600">Motivo</p>
+                    <p className="text-xs font-semibold text-muted-foreground/80">Motivo</p>
                     <p className="mt-1">{selectedRequest.reason}</p>
                   </div>
                 </div>
@@ -320,10 +320,10 @@ export default function RequestsPage() {
                   <h4 className="font-semibold mb-3">Artículos solicitados</h4>
                   <div className="space-y-2">
                     {selectedRequest.items.map((item, idx) => (
-                      <div key={idx} className="p-3 bg-slate-50 rounded border">
+                      <div key={idx} className="p-3 bg-card rounded border border-border">
                         <p className="font-medium">{getItemName(item.inventoryId)}</p>
-                        <p className="text-sm text-slate-600">Cantidad: {item.quantity}</p>
-                        {item.notes && <p className="text-xs text-slate-500 mt-1">{item.notes}</p>}
+                        <p className="text-sm text-muted-foreground">Cantidad: {item.quantity}</p>
+                        {item.notes && <p className="text-xs text-muted-foreground/70 mt-1">{item.notes}</p>}
                       </div>
                     ))}
                   </div>
@@ -334,7 +334,7 @@ export default function RequestsPage() {
                   <div className="border-t pt-4">
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <p className="text-xs font-semibold text-slate-600">
+                        <p className="text-xs font-semibold text-muted-foreground/80">
                           {selectedRequest.status === 'approved' ? 'Aprobado por' : 'Rechazado por'}
                         </p>
                         <p className="mt-1">
@@ -342,7 +342,7 @@ export default function RequestsPage() {
                         </p>
                       </div>
                       <div>
-                        <p className="text-xs font-semibold text-slate-600">
+                        <p className="text-xs font-semibold text-muted-foreground/80">
                           {selectedRequest.status === 'approved' ? 'Fecha de aprobación' : 'Fecha de rechazo'}
                         </p>
                         <p className="mt-1">
@@ -353,7 +353,7 @@ export default function RequestsPage() {
                       </div>
                       {selectedRequest.rejectionReason && (
                         <div className="col-span-2">
-                          <p className="text-xs font-semibold text-slate-600">Rejection Reason</p>
+                          <p className="text-xs font-semibold text-muted-foreground/80">Rejection Reason</p>
                           <p className="mt-1 text-sm">{selectedRequest.rejectionReason}</p>
                         </div>
                       )}
@@ -367,13 +367,13 @@ export default function RequestsPage() {
                     <Button
                       variant="outline"
                       onClick={() => handleReject(selectedRequest)}
-                      className="text-red-600 hover:bg-red-50"
+                      className="text-destructive hover:bg-destructive/10"
                     >
                       Rechazar
                     </Button>
                     <Button
                       onClick={() => handleApprove(selectedRequest)}
-                      className="bg-green-600 hover:bg-green-700"
+                      className="bg-success hover:bg-success/90"
                     >
                       Aprobar
                     </Button>
@@ -426,7 +426,7 @@ export default function RequestsPage() {
               {rejectionReason === '' && selectedRequest?.status === 'pending' ? (
                 <Button
                   onClick={handleConfirmApproval}
-                  className="bg-green-600 hover:bg-green-700"
+                  className="bg-success hover:bg-success/90"
                 >
                   Aprobar
                 </Button>
@@ -434,7 +434,7 @@ export default function RequestsPage() {
                 <Button
                   onClick={handleConfirmReject}
                   disabled={!rejectionReason.trim()}
-                  className="bg-red-600 hover:bg-red-700"
+                  className="bg-destructive hover:bg-destructive/90"
                 >
                   Rechazar
                 </Button>

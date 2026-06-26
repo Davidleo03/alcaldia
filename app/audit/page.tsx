@@ -19,12 +19,12 @@ import { Search } from 'lucide-react';
 import { format } from 'date-fns';
 
 const actionColors: Record<string, string> = {
-  CREATE: 'bg-green-100 text-green-800 hover:bg-green-100',
-  UPDATE: 'bg-blue-100 text-blue-800 hover:bg-blue-100',
-  DELETE: 'bg-red-100 text-red-800 hover:bg-red-100',
-  APPROVE: 'bg-emerald-100 text-emerald-800 hover:bg-emerald-100',
-  REJECT: 'bg-orange-100 text-orange-800 hover:bg-orange-100',
-  VIEW: 'bg-gray-100 text-gray-800 hover:bg-gray-100',
+  CREATE: 'bg-success text-success-foreground hover:bg-success/90',
+  UPDATE: 'bg-accent text-accent-foreground hover:bg-accent/90',
+  DELETE: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
+  APPROVE: 'bg-success text-success-foreground hover:bg-success/90',
+  REJECT: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
+  VIEW: 'bg-muted text-muted-foreground hover:bg-muted/90',
 };
 
 export default function AuditPage() {
@@ -66,8 +66,8 @@ export default function AuditPage() {
     <DashboardLayout>
       <div className="space-y-6">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900">Registro de auditoría</h1>
-          <p className="text-slate-600 mt-2">Rastrea todas las actividades y cambios del sistema</p>
+          <h1 className="text-3xl font-bold text-foreground">Registro de auditoría</h1>
+          <p className="text-muted-foreground mt-2">Rastrea todas las actividades y cambios del sistema</p>
         </div>
 
         <Card>
@@ -78,7 +78,7 @@ export default function AuditPage() {
             <div className="space-y-4 mb-4">
               <div className="flex flex-col md:flex-row gap-4">
                 <div className="flex-1 relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-4 w-4" />
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground/80 h-4 w-4" />
                   <Input
                     placeholder="Buscar actividades..."
                     value={search}
@@ -90,7 +90,7 @@ export default function AuditPage() {
                 <select
                   value={filterAction}
                   onChange={(e) => setFilterAction(e.target.value)}
-                  className="px-3 py-2 border border-slate-300 rounded-md bg-white text-sm"
+                  className="px-3 py-2 border border-border rounded-md bg-card text-sm"
                 >
                   {actions.map(action => (
                       <option key={action} value={action}>
@@ -102,7 +102,7 @@ export default function AuditPage() {
                 <select
                   value={filterModule}
                   onChange={(e) => setFilterModule(e.target.value)}
-                  className="px-3 py-2 border border-slate-300 rounded-md bg-white text-sm"
+                  className="px-3 py-2 border border-border rounded-md bg-card text-sm"
                 >
                   {modules.map(module => (
                       <option key={module} value={module}>
@@ -116,7 +116,7 @@ export default function AuditPage() {
             <div className="border rounded-lg overflow-hidden">
               <Table>
                 <TableHeader>
-                    <TableRow className="bg-slate-50">
+                    <TableRow className="bg-muted/10">
                     <TableHead>Fecha</TableHead>
                     <TableHead>Usuario</TableHead>
                     <TableHead>Acción</TableHead>
@@ -127,14 +127,14 @@ export default function AuditPage() {
                 <TableBody>
                   {filteredLogs.length === 0 ? (
                     <TableRow>
-                        <TableCell colSpan={5} className="text-center py-8 text-slate-500">
+                        <TableCell colSpan={5} className="text-center py-8 text-muted-foreground/80">
                         No se encontraron registros de auditoría
                       </TableCell>
                     </TableRow>
                   ) : (
                     filteredLogs.map((log) => (
                       <TableRow key={log.id}>
-                        <TableCell className="text-sm text-slate-600">
+                        <TableCell className="text-sm text-muted-foreground">
                           {formatDate(log.timestamp)}
                         </TableCell>
                         <TableCell className="font-medium text-sm">
@@ -148,7 +148,7 @@ export default function AuditPage() {
                         <TableCell className="text-sm capitalize">
                           {log.module}
                         </TableCell>
-                        <TableCell className="text-sm text-slate-600">
+                        <TableCell className="text-sm text-muted-foreground">
                           {log.description}
                         </TableCell>
                       </TableRow>
@@ -159,7 +159,7 @@ export default function AuditPage() {
             </div>
 
             {filteredLogs.length > 0 && (
-              <div className="mt-4 text-sm text-slate-600">
+              <div className="mt-4 text-sm text-muted-foreground">
                 Showing {filteredLogs.length} of {logs.length} audit logs
               </div>
             )}

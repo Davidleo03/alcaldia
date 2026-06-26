@@ -35,33 +35,33 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-700 via-red-600 to-gray-900 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-sidebar via-sidebar/80 to-background p-4">
       <Card className="w-full max-w-md shadow-2xl border-0">
-        <CardHeader className="space-y-1 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-t">
+        <CardHeader className="space-y-1 bg-gradient-to-r from-primary to-secondary text-sidebar-foreground rounded-t">
           <div className="flex items-center justify-center mb-2">
-            <div className="flex items-center justify-center w-16 h-16 rounded-full border-4 border-yellow-400 bg-red-600">
-              <span className="text-2xl font-bold text-yellow-400">DC</span>
+            <div className="flex items-center justify-center w-16 h-16 rounded-full border-4 border-primary bg-secondary">
+              <span className="text-2xl font-bold text-primary-foreground">DC</span>
             </div>
           </div>
           <CardTitle className="text-2xl font-bold text-center">
             Alcaldía De Zamora
           </CardTitle>
-          <CardDescription className="text-center text-yellow-100">
+          <CardDescription className="text-center text-sidebar-foreground/80">
             Gobernanza Digital - Automatización Logística
           </CardDescription>
         </CardHeader>
         <CardContent className="pt-6">
           <form onSubmit={handleLogin} className="space-y-4">
             {error && (
-              <Alert className="bg-red-50 border-red-200">
-                <AlertDescription className="text-red-800">
+              <Alert className="bg-destructive/20 border-destructive/30">
+                <AlertDescription className="text-destructive">
                   {error}
                 </AlertDescription>
               </Alert>
             )}
 
             <div className="space-y-2">
-              <label htmlFor="email" className="text-sm font-medium text-gray-700">
+              <label htmlFor="email" className="text-sm font-medium text-muted-foreground/80">
                 Correo Electrónico
               </label>
               <Input
@@ -76,7 +76,7 @@ export default function LoginPage() {
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="password" className="text-sm font-medium text-gray-700">
+              <label htmlFor="password" className="text-sm font-medium text-muted-foreground/80">
                 Contraseña
               </label>
               <Input
@@ -92,7 +92,7 @@ export default function LoginPage() {
 
             <Button
               type="submit"
-              className="w-full bg-red-600 hover:bg-red-700 text-white font-semibold"
+              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold"
               disabled={isLoading}
             >
               {isLoading ? 'Iniciando sesión...' : 'Ingresar'}

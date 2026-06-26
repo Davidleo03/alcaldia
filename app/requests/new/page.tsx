@@ -117,8 +117,8 @@ export default function NewRequestPage() {
     <DashboardLayout>
       <div className="space-y-6">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900">Crear Solicitud</h1>
-          <p className="text-slate-600 mt-2">Enviar una nueva solicitud de material</p>
+          <h1 className="text-3xl font-bold text-foreground">Crear Solicitud</h1>
+          <p className="text-muted-foreground/80 mt-2">Enviar una nueva solicitud de material</p>
         </div>
 
         <Card>
@@ -137,7 +137,7 @@ export default function NewRequestPage() {
                     onChange={(e) =>
                       setFormData(prev => ({ ...prev, type: e.target.value as any }))
                     }
-                    className="w-full px-3 py-2 border border-slate-300 rounded-md bg-white"
+                    className="w-full px-3 py-2 border border-border rounded-md bg-card"
                   >
                     {REQUEST_TYPES.map(t => (
                       <option key={t.value} value={t.value}>
@@ -156,9 +156,9 @@ export default function NewRequestPage() {
                       setFormData(prev => ({ ...prev, reason: e.target.value }))
                     }
                     placeholder="p.ej., Reposición de suministros de oficina"
-                    className={errors.reason ? 'border-red-500' : ''}
+                    className={errors.reason ? 'border-destructive' : ''}
                   />
-                  {errors.reason && <p className="text-xs text-red-600 mt-1">{errors.reason}</p>}
+                  {errors.reason && <p className="text-xs text-destructive mt-1">{errors.reason}</p>}
                 </div>
               </div>
 
@@ -167,32 +167,32 @@ export default function NewRequestPage() {
                 <h3 className="text-lg font-semibold mb-4">Artículos de la solicitud</h3>
 
                 {errors.items && (
-                  <p className="text-sm text-red-600 mb-4">{errors.items}</p>
+                  <p className="text-sm text-destructive mb-4">{errors.items}</p>
                 )}
 
                 {requestItems.length > 0 && (
                   <div className="mb-6 border rounded-lg overflow-hidden">
-                    <div className="bg-slate-50 p-4">
-                      <h4 className="font-medium text-slate-900 mb-3">Artículos a solicitar</h4>
+                    <div className="bg-muted/10 p-4">
+                      <h4 className="font-medium text-foreground mb-3">Artículos a solicitar</h4>
                       <div className="space-y-3">
                         {requestItems.map((item, index) => (
                           <div
                             key={index}
-                            className="flex items-center justify-between p-3 bg-white border border-slate-200 rounded"
+                            className="flex items-center justify-between p-3 bg-card border border-border rounded"
                           >
                             <div>
                               <p className="font-medium">{getItemName(item.inventoryId)}</p>
-                              <p className="text-sm text-slate-600">
+                              <p className="text-sm text-muted-foreground/80">
                                 Cant: {item.quantity} (Disponibles: {getAvailableQuantity(item.inventoryId)})
                               </p>
-                              {item.notes && <p className="text-xs text-slate-500 mt-1">{item.notes}</p>}
+                              {item.notes && <p className="text-xs text-muted-foreground/80 mt-1">{item.notes}</p>}
                             </div>
                             <Button
                               type="button"
                               variant="ghost"
                               size="sm"
                               onClick={() => handleRemoveItem(index)}
-                              className="text-red-600 hover:bg-red-50"
+                              className="text-destructive hover:bg-destructive/10"
                             >
                               <X className="h-4 w-4" />
                             </Button>
@@ -204,7 +204,7 @@ export default function NewRequestPage() {
                 )}
 
                 {/* Add Items */}
-                <div className="border rounded-lg p-4 bg-slate-50">
+                <div className="border rounded-lg p-4 bg-muted/10">
                   <h4 className="font-medium mb-4">Agregar artículos</h4>
 
                   <div className="space-y-4">
@@ -214,8 +214,8 @@ export default function NewRequestPage() {
                         id="item"
                         value={selectedItemId}
                         onChange={(e) => setSelectedItemId(e.target.value)}
-                        className={`w-full px-3 py-2 border rounded-md bg-white ${
-                          errors.itemId ? 'border-red-500' : 'border-slate-300'
+                        className={`w-full px-3 py-2 border rounded-md bg-card ${
+                          errors.itemId ? 'border-destructive' : 'border-border'
                         }`}
                       >
                         <option value="">Elige un artículo...</option>
@@ -225,7 +225,7 @@ export default function NewRequestPage() {
                           </option>
                         ))}
                       </select>
-                      {errors.itemId && <p className="text-xs text-red-600 mt-1">{errors.itemId}</p>}
+                      {errors.itemId && <p className="text-xs text-destructive mt-1">{errors.itemId}</p>}
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -237,10 +237,10 @@ export default function NewRequestPage() {
                           min="1"
                           value={selectedQuantity}
                           onChange={(e) => setSelectedQuantity(e.target.value)}
-                          className={errors.quantity ? 'border-red-500' : ''}
+                          className={errors.quantity ? 'border-destructive' : ''}
                           placeholder="0"
                         />
-                        {errors.quantity && <p className="text-xs text-red-600 mt-1">{errors.quantity}</p>}
+                        {errors.quantity && <p className="text-xs text-destructive mt-1">{errors.quantity}</p>}
                       </div>
 
                       <div>
@@ -257,7 +257,7 @@ export default function NewRequestPage() {
                     <Button
                       type="button"
                       onClick={handleAddItem}
-                      className="w-full bg-green-600 hover:bg-green-700"
+                      className="w-full bg-success hover:bg-success/90"
                     >
                       <Plus className="h-4 w-4 mr-2" />
                       Agregar artículo a la solicitud
@@ -278,7 +278,7 @@ export default function NewRequestPage() {
                 </Button>
                 <Button
                   type="submit"
-                  className="flex-1 bg-blue-600 hover:bg-blue-700"
+                  className="flex-1 bg-primary hover:bg-primary/90"
                   disabled={requestItems.length === 0}
                 >
                   Enviar solicitud

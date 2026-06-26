@@ -199,10 +199,10 @@ export default function UsersPage() {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-slate-900">Usuarios</h1>
-            <p className="text-slate-600 mt-2">Gestiona cuentas de usuario y permisos</p>
+            <h1 className="text-3xl font-bold text-foreground">Usuarios</h1>
+            <p className="text-muted-foreground/80 mt-2">Gestiona cuentas de usuario y permisos</p>
           </div>
-          <Button type="button" onClick={handleAdd} className="bg-blue-600 hover:bg-blue-700">
+          <Button type="button" onClick={handleAdd} className="bg-primary hover:bg-primary/90">
             <Plus className="h-4 w-4 mr-2" />
             Agregar usuario
           </Button>
@@ -216,7 +216,7 @@ export default function UsersPage() {
             <div className="border rounded-lg overflow-hidden">
               <Table>
                 <TableHeader>
-                    <TableRow className="bg-slate-50">
+                    <TableRow className="bg-muted/10">
                     <TableHead>Nombre</TableHead>
                     <TableHead>Correo</TableHead>
                     <TableHead>Rol</TableHead>
@@ -228,7 +228,7 @@ export default function UsersPage() {
                 <TableBody>
                   {users.length === 0 ? (
                     <TableRow>
-                      <TableCell colSpan={6} className="text-center py-8 text-slate-500">
+                      <TableCell colSpan={6} className="text-center py-8 text-muted-foreground/70">
                         No users found
                       </TableCell>
                     </TableRow>
@@ -236,17 +236,17 @@ export default function UsersPage() {
                     users.map((user) => (
                       <TableRow key={user.id}>
                         <TableCell className="font-medium">{user.name}</TableCell>
-                        <TableCell className="text-slate-600">{user.email}</TableCell>
+                        <TableCell className="text-muted-foreground">{user.email}</TableCell>
                         <TableCell>
-                              <Badge className={user.role === 'admin' ? 'bg-purple-100 text-purple-800 hover:bg-purple-100' : 'bg-blue-100 text-blue-800 hover:bg-blue-100'}>
+                              <Badge className={user.role === 'admin' ? 'bg-accent text-accent-foreground hover:bg-accent/90' : 'bg-primary text-primary-foreground hover:bg-primary/90'}>
                                 {user.role === 'admin' ? 'Administrador' : 'Usuario de Departamento'}
                               </Badge>
                         </TableCell>
-                        <TableCell className="text-slate-600">
+                        <TableCell className="text-muted-foreground">
                           {getDepartmentName(user.departmentId)}
                         </TableCell>
                         <TableCell>
-                          <Badge className={user.isActive ? 'bg-green-100 text-green-800 hover:bg-green-100' : 'bg-gray-100 text-gray-800 hover:bg-gray-100'}>
+                          <Badge className={user.isActive ? 'bg-success text-success-foreground hover:bg-success/90' : 'bg-muted text-muted-foreground hover:bg-muted/90'}>
                             {user.isActive ? 'Activo' : 'Inactivo'}
                           </Badge>
                         </TableCell>
@@ -263,7 +263,7 @@ export default function UsersPage() {
                               </DropdownMenuItem>
                               <DropdownMenuItem
                                 onClick={() => handleDelete(user)}
-                                className="text-red-600"
+                                className="text-destructive"
                               >
                                 Eliminar
                               </DropdownMenuItem>
@@ -295,10 +295,10 @@ export default function UsersPage() {
                   id="name"
                   value={formData.name}
                   onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                  className={errors.name ? 'border-red-500' : ''}
+                  className={errors.name ? 'border-destructive' : ''}
                   placeholder="p.ej., Juan Pérez"
                 />
-                {errors.name && <p className="text-xs text-red-600 mt-1">{errors.name}</p>}
+                {errors.name && <p className="text-xs text-destructive mt-1">{errors.name}</p>}
               </div>
 
               <div>
@@ -308,10 +308,10 @@ export default function UsersPage() {
                   type="email"
                   value={formData.email}
                   onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                  className={errors.email ? 'border-red-500' : ''}
+                  className={errors.email ? 'border-destructive' : ''}
                   placeholder="p.ej., juan@ejemplo.com"
                 />
-                {errors.email && <p className="text-xs text-red-600 mt-1">{errors.email}</p>}
+                {errors.email && <p className="text-xs text-destructive mt-1">{errors.email}</p>}
               </div>
 
               <div>
@@ -321,10 +321,10 @@ export default function UsersPage() {
                   type="password"
                   value={formData.password}
                   onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
-                  className={errors.password ? 'border-red-500' : ''}
+                  className={errors.password ? 'border-destructive' : ''}
                   placeholder="••••••••"
                 />
-                {errors.password && <p className="text-xs text-red-600 mt-1">{errors.password}</p>}
+                {errors.password && <p className="text-xs text-destructive mt-1">{errors.password}</p>}
               </div>
 
               <div>
@@ -333,7 +333,7 @@ export default function UsersPage() {
                   id="role"
                   value={formData.role}
                   onChange={(e) => setFormData(prev => ({ ...prev, role: e.target.value as any }))}
-                  className="w-full px-3 py-2 border border-slate-300 rounded-md bg-white"
+                  className="w-full px-3 py-2 border border-border rounded-md bg-card"
                 >
                   <option value="admin">Administrador</option>
                   <option value="department-user">Usuario de Departamento</option>
@@ -347,8 +347,8 @@ export default function UsersPage() {
                     id="department"
                     value={formData.departmentId}
                     onChange={(e) => setFormData(prev => ({ ...prev, departmentId: e.target.value }))}
-                    className={`w-full px-3 py-2 border rounded-md bg-white ${
-                      errors.departmentId ? 'border-red-500' : 'border-slate-300'
+                    className={`w-full px-3 py-2 border rounded-md bg-card ${
+                      errors.departmentId ? 'border-destructive' : 'border-border'
                     }`}
                   >
                     <option value="">Seleccionar departamento</option>
@@ -358,7 +358,7 @@ export default function UsersPage() {
                       </option>
                     ))}
                   </select>
-                  {errors.departmentId && <p className="text-xs text-red-600 mt-1">{errors.departmentId}</p>}
+                  {errors.departmentId && <p className="text-xs text-destructive mt-1">{errors.departmentId}</p>}
                 </div>
               )}
             </div>
@@ -367,7 +367,7 @@ export default function UsersPage() {
               <Button type="button" variant="outline" onClick={() => setFormOpen(false)}>
                 Cancelar
               </Button>
-              <Button type="button" onClick={handleSave} className="bg-blue-600 hover:bg-blue-700">
+              <Button type="button" onClick={handleSave} className="bg-primary hover:bg-primary/90">
                 {selectedUser ? 'Actualizar' : 'Agregar'}
               </Button>
             </DialogFooter>
@@ -384,7 +384,7 @@ export default function UsersPage() {
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel onClick={() => setDeleteOpen(false)}>Cancelar</AlertDialogCancel>
-              <AlertDialogAction onClick={handleConfirmDelete} className="bg-red-600 hover:bg-red-700">
+              <AlertDialogAction onClick={handleConfirmDelete} className="bg-destructive hover:bg-destructive/90">
                 Eliminar
               </AlertDialogAction>
             </AlertDialogFooter>

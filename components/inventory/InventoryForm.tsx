@@ -105,10 +105,10 @@ export function InventoryForm({ open, onOpenChange, item, onSave }: InventoryFor
               onChange={(e) =>
                 setFormData(prev => ({ ...prev, name: e.target.value }))
               }
-              className={errors.name ? 'border-red-500' : ''}
+              className={errors.name ? 'border-destructive' : ''}
               placeholder="p.ej., Sillas de oficina"
             />
-            {errors.name && <p className="text-xs text-red-600 mt-1">{errors.name}</p>}
+            {errors.name && <p className="text-xs text-destructive mt-1">{errors.name}</p>}
           </div>
 
           <div>
@@ -119,8 +119,8 @@ export function InventoryForm({ open, onOpenChange, item, onSave }: InventoryFor
               onChange={(e) =>
                 setFormData(prev => ({ ...prev, category: e.target.value }))
               }
-              className={`w-full px-3 py-2 border rounded-md bg-white ${
-                errors.category ? 'border-red-500' : 'border-slate-300'
+              className={`w-full px-3 py-2 border rounded-md bg-card ${
+                errors.category ? 'border-destructive' : 'border-border'
               }`}
             >
               {CATEGORIES.map(cat => (
@@ -129,7 +129,7 @@ export function InventoryForm({ open, onOpenChange, item, onSave }: InventoryFor
                 </option>
               ))}
             </select>
-            {errors.category && <p className="text-xs text-red-600 mt-1">{errors.category}</p>}
+            {errors.category && <p className="text-xs text-destructive mt-1">{errors.category}</p>}
           </div>
 
           <div className="grid grid-cols-2 gap-4">
@@ -143,10 +143,10 @@ export function InventoryForm({ open, onOpenChange, item, onSave }: InventoryFor
                 onChange={(e) =>
                   setFormData(prev => ({ ...prev, quantity: e.target.value }))
                 }
-                className={errors.quantity ? 'border-red-500' : ''}
+                className={errors.quantity ? 'border-destructive' : ''}
                 placeholder="0"
               />
-              {errors.quantity && <p className="text-xs text-red-600 mt-1">{errors.quantity}</p>}
+              {errors.quantity && <p className="text-xs text-destructive mt-1">{errors.quantity}</p>}
             </div>
 
             <div>
@@ -159,10 +159,10 @@ export function InventoryForm({ open, onOpenChange, item, onSave }: InventoryFor
                 onChange={(e) =>
                   setFormData(prev => ({ ...prev, minStock: e.target.value }))
                 }
-                className={errors.minStock ? 'border-red-500' : ''}
+                className={errors.minStock ? 'border-destructive' : ''}
                 placeholder="0"
               />
-              {errors.minStock && <p className="text-xs text-red-600 mt-1">{errors.minStock}</p>}
+              {errors.minStock && <p className="text-xs text-destructive mt-1">{errors.minStock}</p>}
             </div>
           </div>
 
@@ -174,7 +174,7 @@ export function InventoryForm({ open, onOpenChange, item, onSave }: InventoryFor
               onChange={(e) =>
                 setFormData(prev => ({ ...prev, unitOfMeasure: e.target.value }))
               }
-              className="w-full px-3 py-2 border border-slate-300 rounded-md bg-white"
+              className="w-full px-3 py-2 border border-border rounded-md bg-input"
             >
               {UNITS_OF_MEASURE.map(unit => (
                 <option key={unit} value={unit}>
@@ -188,7 +188,7 @@ export function InventoryForm({ open, onOpenChange, item, onSave }: InventoryFor
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
               Cancelar
             </Button>
-            <Button type="submit" className="bg-blue-600 hover:bg-blue-700">
+            <Button type="submit" className="bg-primary hover:bg-primary/90">
               {item ? 'Actualizar' : 'Agregar'}
             </Button>
           </DialogFooter>

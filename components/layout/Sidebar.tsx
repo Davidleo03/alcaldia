@@ -52,18 +52,18 @@ export function Sidebar() {
   return (
     <div
       className={cn(
-        'hidden md:flex flex-col h-full bg-gray-900 border-r border-gray-700 transition-all duration-300',
+        'hidden md:flex flex-col h-full bg-sidebar border-r border-sidebar-border transition-all duration-300',
         isOpen ? 'w-64' : 'w-20'
       )}
     >
       {/* Header */}
-      <div className="flex items-center justify-between h-16 px-4 border-b border-gray-700 bg-gray-800">
-        {isOpen && <h2 className="text-sm font-bold text-gray-100 uppercase tracking-wider">Panel Principal</h2>}
+      <div className="flex items-center justify-between h-16 px-4 border-b border-sidebar-border bg-sidebar">
+        {isOpen && <h2 className="text-sm font-bold text-sidebar-foreground uppercase tracking-wider">Panel Principal</h2>}
         <Button
           variant="ghost"
           size="sm"
           onClick={() => setIsOpen(!isOpen)}
-          className="ml-auto text-gray-400 hover:text-white hover:bg-gray-700"
+          className="ml-auto text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar/70"
         >
           <ChevronLeft className={cn('h-4 w-4 transition-transform', isOpen && 'rotate-180')} />
         </Button>
@@ -80,8 +80,8 @@ export function Sidebar() {
               <Button
                 variant={isActive ? 'default' : 'ghost'}
                 className={cn(
-                  'w-full justify-start text-gray-200 hover:text-white hover:bg-gray-700',
-                  isActive && 'bg-red-600 hover:bg-red-700 text-white'
+                  'w-full justify-start text-sidebar-foreground/80 hover:text-sidebar-foreground hover:bg-sidebar/70',
+                  isActive && 'bg-primary hover:bg-primary/90 text-primary-foreground'
                 )}
               >
                 <Icon className="h-5 w-5" />

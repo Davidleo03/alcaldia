@@ -38,7 +38,7 @@ export function StockLevelsChart() {
           <CardDescription>Items near minimum stock level</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="h-64 flex items-center justify-center text-slate-500">
+          <div className="h-64 flex items-center justify-center text-muted-foreground/70">
             All items above minimum stock level
           </div>
         </CardContent>

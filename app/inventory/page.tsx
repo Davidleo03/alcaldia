@@ -119,12 +119,12 @@ export default function InventoryPage() {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-slate-900">Gestión de Inventario</h1>
-            <p className="text-slate-600 mt-2">Administra tus artículos de inventario y niveles de stock</p>
+            <h1 className="text-3xl font-bold text-foreground">Gestión de Inventario</h1>
+            <p className="text-muted-foreground/80 mt-2">Administra tus artículos de inventario y niveles de stock</p>
           </div>
           <Button
             onClick={handleAdd}
-            className="bg-blue-600 hover:bg-blue-700"
+            className="bg-primary hover:bg-primary/90"
           >
             <Plus className="h-4 w-4 mr-2" />
             Agregar artículo

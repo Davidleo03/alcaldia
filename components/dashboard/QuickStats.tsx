@@ -18,33 +18,33 @@ export function QuickStats() {
       title: 'Solicitudes Totales',
       value: totalItems,
       icon: Package,
-      color: 'bg-red-100',
-      textColor: 'text-red-600',
-      bgColor: 'bg-red-50',
+      color: 'bg-secondary',
+      textColor: 'text-secondary-foreground',
+      bgColor: 'bg-secondary/20',
     },
     {
       title: 'Aprobadas',
       value: requests.filter(r => r.status === 'approved').length,
       icon: AlertCircle,
-      color: 'bg-green-100',
-      textColor: 'text-green-600',
-      bgColor: 'bg-green-50',
+      color: 'bg-success',
+      textColor: 'text-success-foreground',
+      bgColor: 'bg-success/20',
     },
     {
       title: 'En Almacén',
       value: lowStockItems,
       icon: ClipboardList,
-      color: 'bg-yellow-100',
-      textColor: 'text-yellow-600',
-      bgColor: 'bg-yellow-50',
+      color: 'bg-warning',
+      textColor: 'text-warning-foreground',
+      bgColor: 'bg-warning/20',
     },
     {
       title: 'Distribuidas',
       value: pendingRequests,
       icon: TrendingDown,
-      color: 'bg-purple-100',
-      textColor: 'text-purple-600',
-      bgColor: 'bg-purple-50',
+      color: 'bg-primary',
+      textColor: 'text-primary-foreground',
+      bgColor: 'bg-primary/20',
     },
   ];
 
@@ -57,9 +57,9 @@ export function QuickStats() {
             <CardContent className="pt-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-xs font-medium text-gray-600">{stat.title}</p>
-                  <p className="text-3xl font-bold text-gray-900 mt-2">{stat.value}</p>
-                  <p className="text-xs text-green-600 mt-1">↑ 12% from last month</p>
+                  <p className="text-xs font-medium text-muted-foreground">{stat.title}</p>
+                  <p className="text-3xl font-bold text-foreground mt-2">{stat.value}</p>
+                  <p className="text-xs text-success/80 mt-1">↑ 12% from last month</p>
                 </div>
                 <div className={`${stat.color} p-3 rounded-lg`}>
                   <Icon className={`h-6 w-6 ${stat.textColor}`} />
