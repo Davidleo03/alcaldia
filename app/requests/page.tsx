@@ -209,7 +209,7 @@ export default function RequestsPage() {
                 <select
                   value={filterStatus}
                   onChange={(e) => setFilterStatus(e.target.value)}
-                  className="px-3 py-2 border border-border rounded-md bg-card text-sm"
+                  className="px-3 py-2 border border-border rounded-md bg-input text-card-foreground text-sm"
                 >
                   {statuses.map(status => (
                     <option key={status} value={status}>
@@ -223,7 +223,7 @@ export default function RequestsPage() {
             <div className="border rounded-lg overflow-hidden">
               <Table>
                 <TableHeader>
-                  <TableRow className="bg-muted/10">
+                    <TableRow className="bg-muted">
                     <TableHead>Fecha</TableHead>
                     <TableHead>Tipo</TableHead>
                     {session?.role === 'admin' && <TableHead>Departamento</TableHead>}
@@ -297,7 +297,7 @@ export default function RequestsPage() {
                   </div>
                   <div>
                     <p className="text-xs font-semibold text-muted-foreground/80">Estado</p>
-                    <Badge className={statusColors[selectedRequest.status]} className="mt-1">
+                    <Badge className={statusColors[selectedRequest.status]} >
                       {statusLabel(selectedRequest.status)}
                     </Badge>
                   </div>

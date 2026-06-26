@@ -216,7 +216,7 @@ export default function UsersPage() {
             <div className="border rounded-lg overflow-hidden">
               <Table>
                 <TableHeader>
-                    <TableRow className="bg-muted/10">
+                    <TableRow className="bg-muted">
                     <TableHead>Nombre</TableHead>
                     <TableHead>Correo</TableHead>
                     <TableHead>Rol</TableHead>
@@ -333,7 +333,7 @@ export default function UsersPage() {
                   id="role"
                   value={formData.role}
                   onChange={(e) => setFormData(prev => ({ ...prev, role: e.target.value as any }))}
-                  className="w-full px-3 py-2 border border-border rounded-md bg-card"
+                  className="w-full px-3 py-2 border border-border rounded-md bg-input text-card-foreground"
                 >
                   <option value="admin">Administrador</option>
                   <option value="department-user">Usuario de Departamento</option>
@@ -347,7 +347,7 @@ export default function UsersPage() {
                     id="department"
                     value={formData.departmentId}
                     onChange={(e) => setFormData(prev => ({ ...prev, departmentId: e.target.value }))}
-                    className={`w-full px-3 py-2 border rounded-md bg-card ${
+                    className={`w-full px-3 py-2 border rounded-md bg-input text-card-foreground ${
                       errors.departmentId ? 'border-destructive' : 'border-border'
                     }`}
                   >

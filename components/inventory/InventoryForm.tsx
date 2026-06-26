@@ -111,18 +111,18 @@ export function InventoryForm({ open, onOpenChange, item, onSave }: InventoryFor
             {errors.name && <p className="text-xs text-destructive mt-1">{errors.name}</p>}
           </div>
 
-          <div>
-            <Label htmlFor="category">Categoría</Label>
-            <select
-              id="category"
-              value={formData.category}
-              onChange={(e) =>
-                setFormData(prev => ({ ...prev, category: e.target.value }))
-              }
-              className={`w-full px-3 py-2 border rounded-md bg-card ${
-                errors.category ? 'border-destructive' : 'border-border'
-              }`}
-            >
+            <div>
+              <Label htmlFor="category">Categoría</Label>
+              <select
+                id="category"
+                value={formData.category}
+                onChange={(e) =>
+                  setFormData(prev => ({ ...prev, category: e.target.value }))
+                }
+                className={`w-full px-3 py-2 border rounded-md bg-input text-card-foreground ${
+                  errors.category ? 'border-destructive' : 'border-border'
+                }`}
+              >
               {CATEGORIES.map(cat => (
                 <option key={cat} value={cat}>
                   {cat}

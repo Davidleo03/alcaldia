@@ -57,7 +57,7 @@ export function InventoryTable({ items, onEdit, onDelete }: InventoryTableProps)
         <select
           value={filterCategory}
           onChange={(e) => setFilterCategory(e.target.value)}
-          className="px-3 py-2 border border-border rounded-md bg-card text-sm"
+          className="px-3 py-2 border border-border rounded-md bg-input text-card-foreground text-sm"
         >
           {categories.map(cat => (
             <option key={cat} value={cat}>
@@ -70,7 +70,7 @@ export function InventoryTable({ items, onEdit, onDelete }: InventoryTableProps)
       <div className="border rounded-lg overflow-hidden">
         <Table>
           <TableHeader>
-            <TableRow className="bg-muted/10">
+            <TableRow className="bg-muted">
               <TableHead>Nombre</TableHead>
               <TableHead>Categoría</TableHead>
               <TableHead className="text-right">Cantidad</TableHead>

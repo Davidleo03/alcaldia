@@ -168,7 +168,7 @@ export default function DepartmentsPage() {
             <div className="border rounded-lg overflow-hidden">
               <Table>
                 <TableHeader>
-                    <TableRow className="bg-muted/10">
+                    <TableRow className="bg-muted">
                     <TableHead>Nombre</TableHead>
                     <TableHead>Descripción</TableHead>
                     <TableHead className="text-right">Acciones</TableHead>

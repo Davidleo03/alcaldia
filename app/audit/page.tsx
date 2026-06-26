@@ -90,7 +90,7 @@ export default function AuditPage() {
                 <select
                   value={filterAction}
                   onChange={(e) => setFilterAction(e.target.value)}
-                  className="px-3 py-2 border border-border rounded-md bg-card text-sm"
+                  className="px-3 py-2 border border-border rounded-md bg-input text-card-foreground text-sm"
                 >
                   {actions.map(action => (
                       <option key={action} value={action}>
@@ -102,7 +102,7 @@ export default function AuditPage() {
                 <select
                   value={filterModule}
                   onChange={(e) => setFilterModule(e.target.value)}
-                  className="px-3 py-2 border border-border rounded-md bg-card text-sm"
+                  className="px-3 py-2 border border-border rounded-md bg-input text-card-foreground text-sm"
                 >
                   {modules.map(module => (
                       <option key={module} value={module}>
@@ -116,7 +116,7 @@ export default function AuditPage() {
             <div className="border rounded-lg overflow-hidden">
               <Table>
                 <TableHeader>
-                    <TableRow className="bg-muted/10">
+                    <TableRow className="bg-muted">
                     <TableHead>Fecha</TableHead>
                     <TableHead>Usuario</TableHead>
                     <TableHead>Acción</TableHead>

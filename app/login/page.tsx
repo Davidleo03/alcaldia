@@ -35,15 +35,15 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-sidebar via-sidebar/80 to-background p-4">
+    <div className="min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat p-4" style={{ backgroundImage: "url('/villa.jpg')" }}>
       <Card className="w-full max-w-md shadow-2xl border-0">
-        <CardHeader className="space-y-1 bg-gradient-to-r from-primary to-secondary text-sidebar-foreground rounded-t">
-          <div className="flex items-center justify-center mb-2">
-            <div className="flex items-center justify-center w-16 h-16 rounded-full border-4 border-primary bg-secondary">
-              <span className="text-2xl font-bold text-primary-foreground">DC</span>
+          <CardHeader className="space-y-1 bg-[var(--primary-foreground)] text-sidebar-foreground rounded-t">
+          <div className="flex items-center justify-center mb-4">
+            <div className="flex items-center justify-center w-24 h-24 rounded-full overflow-hidden border-4 border-primary bg-secondary">
+              <img src="/alcaldia.png" alt="Alcaldía" className="h-full w-full object-cover" />
             </div>
           </div>
-          <CardTitle className="text-2xl font-bold text-center">
+          <CardTitle className="text-2xl font-bold text-center c">
             Alcaldía De Zamora
           </CardTitle>
           <CardDescription className="text-center text-sidebar-foreground/80">

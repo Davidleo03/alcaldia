@@ -25,7 +25,7 @@
   --destructive: #FF9E9E;
   --destructive-foreground: #2C3E50;
   --border: #DDE5E9;
-  --input: #FFFFFF;
+  --input: #F4FBFC;
   --ring: #A8E6CF;
   --chart-1: #A8E6CF;
   --chart-2: #C8E6F0;
@@ -65,7 +65,7 @@
   --destructive: #FF9E9E;
   --destructive-foreground: #2C3E50;
   --border: #2C3E50;
-  --input: #2C3E50;
+  --input: #324659;
   --ring: #A8E6CF;
   --chart-1: #A8E6CF;
   --chart-2: #C8E6F0;
@@ -133,5 +133,45 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+  thead tr {
+    @apply bg-muted;
+  }
+  thead th {
+    @apply text-card-foreground font-semibold;
+  }
+  /* Global form control defaults: use theme input bg and readable text */
+  input,
+  textarea,
+  select {
+    background-color: var(--color-input) !important;
+    color: var(--color-card-foreground) !important;
+    border-color: var(--color-border) !important;
+  }
+
+  /* Placeholder and muted text inside inputs */
+  input::placeholder,
+  textarea::placeholder,
+  select::placeholder {
+    color: var(--color-muted-foreground) !important;
+    opacity: 0.95;
+  }
+
+  /* Options in selects should match the input background and foreground */
+  option {
+    background-color: var(--color-input) !important;
+    color: var(--color-card-foreground) !important;
+  }
+
+  /* Ensure sidebar utilities use the theme variables (fix accidental white overrides) */
+  [class^="bg-sidebar"],
+  [class*=" bg-sidebar"] {
+    background-color: var(--sidebar) !important;
+    color: inherit;
+  }
+
+  [class^="text-sidebar-"],
+  [class*=" text-sidebar-"] {
+    color: var(--sidebar-foreground) !important;
   }
 }

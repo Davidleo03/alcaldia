@@ -137,7 +137,7 @@ export default function NewRequestPage() {
                     onChange={(e) =>
                       setFormData(prev => ({ ...prev, type: e.target.value as any }))
                     }
-                    className="w-full px-3 py-2 border border-border rounded-md bg-card"
+                    className="w-full px-3 py-2 border border-border rounded-md bg-input text-card-foreground"
                   >
                     {REQUEST_TYPES.map(t => (
                       <option key={t.value} value={t.value}>
@@ -214,7 +214,7 @@ export default function NewRequestPage() {
                         id="item"
                         value={selectedItemId}
                         onChange={(e) => setSelectedItemId(e.target.value)}
-                        className={`w-full px-3 py-2 border rounded-md bg-card ${
+                        className={`w-full px-3 py-2 border rounded-md bg-input text-card-foreground ${
                           errors.itemId ? 'border-destructive' : 'border-border'
                         }`}
                       >
