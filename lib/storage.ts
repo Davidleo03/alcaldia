@@ -101,7 +101,8 @@ export function getDepartmentById(id: string): Department | undefined {
 
 export function createDepartment(department: Department): void {
   const departments = getDepartments();
-  departments.push(department);
+  const deptWithActive = { ...department, active: true };
+  departments.push(deptWithActive);
   setDepartments(departments);
 }
 
@@ -114,9 +115,16 @@ export function updateDepartment(id: string, updates: Partial<Department>): void
   }
 }
 
+// Soft-delete: mark department as inactive instead of removing
 export function deleteDepartment(id: string): void {
   const departments = getDepartments();
-  setDepartments(departments.filter(d => d.id !== id));
+  const next = departments.map(d => d.id === id ? { ...d, active: false } : d);
+  setDepartments(next);
+}
+
+// Return only active departments
+export function getActiveDepartments(): Department[] {
+  return getDepartments().filter(d => d.active === true);
 }
 
 // Inventory operations
@@ -239,18 +247,21 @@ export function initializeSampleData(): void {
       name: 'IT Department',
       description: 'Information Technology',
       createdAt: new Date().toISOString(),
+      active: true,
     },
     {
       id: 'dept-002',
       name: 'HR Department',
       description: 'Human Resources',
       createdAt: new Date().toISOString(),
+      active: true,
     },
     {
       id: 'dept-003',
       name: 'Maintenance',
       description: 'Building Maintenance',
       createdAt: new Date().toISOString(),
+      active: true,
     },
   ];
 

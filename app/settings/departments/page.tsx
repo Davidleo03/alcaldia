@@ -52,7 +52,7 @@ import {
 } from '@/lib/storage';
 
 export default function DepartmentsPage() {
-  const { departments } = useDepartments();
+  const { departments, activeDepartments } = useDepartments();
   const { session } = useAuth();
   const [formOpen, setFormOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
@@ -203,14 +203,14 @@ export default function DepartmentsPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {departments.length === 0 ? (
+                  {activeDepartments.length === 0 ? (
                     <TableRow>
                         <TableCell colSpan={3} className="text-center py-8 text-muted-foreground/70">
-                        No se encontraron departamentos
+                        No se encontraron departamentos activos
                       </TableCell>
                     </TableRow>
                   ) : (
-                    departments.map((dept) => (
+                    activeDepartments.map((dept) => (
                       <TableRow key={dept.id}>
                         <TableCell className="font-medium">{dept.name}</TableCell>
                         <TableCell className="text-muted-foreground">{dept.description}</TableCell>

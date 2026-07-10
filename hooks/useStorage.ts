@@ -71,7 +71,9 @@ export function useUsers() {
 export function useDepartments() {
   const { state: departments, setState: setDepartmentsState } = useStorageCollection<Department>(STORAGE_KEYS.DEPARTMENTS, getDepartments, persistDepartments);
 
-  return { departments, setDepartments: setDepartmentsState };
+  const activeDepartments = departments.filter(d => d.active === true);
+
+  return { departments, activeDepartments, setDepartments: setDepartmentsState };
 }
 
 export function useInventory() {

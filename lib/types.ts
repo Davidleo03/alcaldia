@@ -19,6 +19,7 @@ export interface Department {
   name: string;
   description: string;
   createdAt: string;
+  active?: boolean;
 }
 
 // Inventory item entity
