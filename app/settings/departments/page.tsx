@@ -47,6 +47,7 @@ import {
   createDepartment,
   updateDepartment,
   deleteDepartment,
+  getRequestsByDepartment,
   createAuditLog,
 } from '@/lib/storage';
 
@@ -72,6 +73,16 @@ export default function DepartmentsPage() {
   };
 
   const handleDelete = (dept: Department) => {
+    const pending = getRequestsByDepartment(dept.id).filter(r => r.status === 'pending' || r.status === 'approved');
+    if (pending.length > 0) {
+      toast({
+        title: 'No se puede eliminar',
+        description: 'Este departamento tiene solicitudes pendientes. Elimina primero las solicitudes asociadas.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
     setSelectedDept(dept);
     setDeleteOpen(true);
   };
