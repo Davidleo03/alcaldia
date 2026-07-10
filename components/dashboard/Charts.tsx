@@ -34,12 +34,12 @@ export function StockLevelsChart() {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Stock Levels</CardTitle>
-          <CardDescription>Items near minimum stock level</CardDescription>
+          <CardTitle>Niveles de Stock</CardTitle>
+          <CardDescription>Artículos cerca del nivel mínimo de stock</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="h-64 flex items-center justify-center text-muted-foreground/70">
-            All items above minimum stock level
+            Todos los artículos por encima del nivel mínimo de stock
           </div>
         </CardContent>
       </Card>
@@ -49,8 +49,8 @@ export function StockLevelsChart() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Stock Levels</CardTitle>
-        <CardDescription>Items near minimum stock level</CardDescription>
+        <CardTitle>Niveles de Stock</CardTitle>
+        <CardDescription>Artículos cerca del nivel mínimo de stock</CardDescription>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={300}>
@@ -90,8 +90,8 @@ export function CategoryBreakdown() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Inventory by Category</CardTitle>
-        <CardDescription>Distribution of items across categories</CardDescription>
+        <CardTitle>Inventario Por Categoría</CardTitle>
+        <CardDescription>Distribución de artículos por categorías</CardDescription>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={300}>

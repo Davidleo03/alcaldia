@@ -59,7 +59,7 @@ export function QuickStats() {
                 <div>
                   <p className="text-xs font-medium text-muted-foreground">{stat.title}</p>
                   <p className="text-3xl font-bold text-foreground mt-2">{stat.value}</p>
-                  <p className="text-xs text-success/80 mt-1">↑ 12% from last month</p>
+                  
                 </div>
                 <div className={`${stat.color} p-3 rounded-lg`}>
                   <Icon className={`h-6 w-6 ${stat.textColor}`} />

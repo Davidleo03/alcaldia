@@ -35,18 +35,19 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat p-4" style={{ backgroundImage: "url('/villa.jpg')" }}>
-      <Card className="w-full max-w-md shadow-2xl border-0">
-          <CardHeader className="space-y-1 bg-[var(--primary-foreground)] text-sidebar-foreground rounded-t">
+    <div className="relative min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat p-4" style={{ backgroundImage: "url('/plaza.jpg')" }}>
+      <div className="absolute inset-0 bg-primary/20" />
+      <Card className="relative w-full max-w-md shadow-2xl border-0 bg-card/95 backdrop-blur-sm">
+          <CardHeader className="space-y-1 bg-transparent text-center rounded-t">
           <div className="flex items-center justify-center mb-4">
-            <div className="flex items-center justify-center w-24 h-24 rounded-full overflow-hidden border-4 border-primary bg-secondary">
-              <img src="/alcaldia.png" alt="Alcaldía" className="h-full w-full object-cover" />
+            <div className="flex items-center justify-center w-50 h-24 overflow-hidden  bg-card">
+              <img src="/zamora.jpeg" alt="Logo Zamora" className="h-full w-full object-cover" />
             </div>
           </div>
-          <CardTitle className="text-2xl font-bold text-center c">
-            Alcaldía De Zamora
+          <CardTitle className="text-2xl font-bold text-center text-primary">
+            Alcaldía de Zamora
           </CardTitle>
-          <CardDescription className="text-center text-sidebar-foreground/80">
+          <CardDescription className="text-center text-muted-foreground/80">
             Gobernanza Digital - Automatización Logística
           </CardDescription>
         </CardHeader>
