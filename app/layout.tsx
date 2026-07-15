@@ -23,7 +23,7 @@ export const metadata: Metadata = {
         media: '(prefers-color-scheme: dark)',
       },
       {
-        url: '/favicon.png',
+        url: '/alcaldia.png',
         type: 'image/svg+xml',
       },
     ],
