@@ -10,7 +10,7 @@ const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: 'Alcaldía Zamora',
-  description: 'City Hall Inventory and Request Management System',
+  description: 'Sistema de gestión de suministros de la Alcaldía de Zamora',
   
   icons: {
     icon: [
