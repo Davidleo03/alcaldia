@@ -43,16 +43,12 @@ import { useAuth } from '@/hooks/useAuth';
 import { Department } from '@/lib/types';
 import { Plus, MoreHorizontal } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
-import {
-  createDepartment,
-  updateDepartment,
-  deleteDepartment,
-  getRequestsByDepartment,
-  createAuditLog,
-} from '@/lib/storage';
+import { getRequestsByDepartment } from '@/lib/services/requests';
+import { createDepartment, updateDepartment, disableDepartment } from '@/lib/services/departments';
+import { createAuditLog } from '@/lib/services/audit';
 
 export default function DepartmentsPage() {
-  const { departments, activeDepartments } = useDepartments();
+  const { departments, activeDepartments, reload: reloadDepartments } = useDepartments();
   const { session } = useAuth();
   const [formOpen, setFormOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
@@ -72,8 +68,8 @@ export default function DepartmentsPage() {
     setFormOpen(true);
   };
 
-  const handleDelete = (dept: Department) => {
-    const pending = getRequestsByDepartment(dept.id).filter(r => r.status === 'pending' || r.status === 'approved');
+  const handleDelete = async (dept: Department) => {
+    const pending = (await getRequestsByDepartment(dept.id)).filter(r => r.status === 'pending' || r.status === 'approved');
     if (pending.length > 0) {
       toast({
         title: 'No se puede eliminar',
@@ -94,14 +90,15 @@ export default function DepartmentsPage() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!validateForm()) return;
 
     if (selectedDept) {
-      updateDepartment(selectedDept.id, { name: formData.name, description: formData.description });
+      await updateDepartment(selectedDept.id, { name: formData.name, description: formData.description });
+      await reloadDepartments();
 
       if (session) {
-        createAuditLog({
+        await createAuditLog({
           id: `audit-${Date.now()}`,
           userId: session.userId,
           action: 'UPDATE',
@@ -118,24 +115,22 @@ export default function DepartmentsPage() {
         variant: 'default',
       });
     } else {
-      const newDept: Department = {
-        id: `dept-${Date.now()}`,
+      const created = await createDepartment({
         name: formData.name,
         description: formData.description,
-        createdAt: new Date().toISOString(),
-      };
+      });
 
-      createDepartment(newDept);
+      await reloadDepartments();
 
       if (session) {
-        createAuditLog({
+        await createAuditLog({
           id: `audit-${Date.now()}`,
           userId: session.userId,
           action: 'CREATE',
           module: 'departments',
           description: `Creó departamento: ${formData.name}`,
           timestamp: new Date().toISOString(),
-          affectedRecordId: newDept.id,
+          affectedRecordId: created.id,
         });
       }
 
@@ -149,11 +144,12 @@ export default function DepartmentsPage() {
     setFormOpen(false);
   };
 
-  const handleConfirmDelete = () => {
+  const handleConfirmDelete = async () => {
     if (selectedDept && session) {
-      deleteDepartment(selectedDept.id);
+      await disableDepartment(selectedDept.id);
+      await reloadDepartments();
 
-      createAuditLog({
+      await createAuditLog({
         id: `audit-${Date.now()}`,
         userId: session.userId,
         action: 'DELETE',

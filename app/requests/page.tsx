@@ -30,7 +30,9 @@ import { MaterialRequest } from '@/lib/types';
 import { Plus, Search, Eye } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
-import { updateRequest, updateInventoryItem, createAuditLog } from '@/lib/storage';
+import { updateRequest } from '@/lib/services/requests';
+import { updateInventoryItem } from '@/lib/services/inventory';
+import { createAuditLog } from '@/lib/services/audit';
 import { format } from 'date-fns';
 
 const statusColors: Record<string, string> = {
@@ -42,8 +44,8 @@ const statusColors: Record<string, string> = {
 const statusLabel = (s: string) => (s === 'pending' ? 'Pendiente' : s === 'approved' ? 'Aprobado' : 'Rechazado');
 
 export default function RequestsPage() {
-  const { requests } = useRequests();
-  const { inventory } = useInventory();
+  const { requests, reload: reloadRequests } = useRequests();
+  const { inventory, reload: reloadInventory } = useInventory();
   const { departments } = useDepartments();
   const { users } = useUsers();
   const { session } = useAuth();
@@ -98,28 +100,31 @@ export default function RequestsPage() {
     setApprovalDialogOpen(true);
   };
 
-  const handleConfirmApproval = () => {
+  const handleConfirmApproval = async () => {
     if (!selectedRequest || !session) return;
 
-    // Update request status
-    updateRequest(selectedRequest.id, {
+    await updateRequest(selectedRequest.id, {
       status: 'approved',
       approvalDate: new Date().toISOString(),
       approvedBy: session.userId,
     });
 
-    // Deduct from inventory
-    selectedRequest.items.forEach(item => {
-      const inventoryItem = inventory.find(i => i.id === item.inventoryId);
-      if (inventoryItem) {
-        updateInventoryItem(item.inventoryId, {
-          quantity: inventoryItem.quantity - item.quantity,
-        });
-      }
-    });
+    await Promise.all(
+      selectedRequest.items.map(async item => {
+        const inventoryItem = inventory.find(i => i.id === item.inventoryId);
+        if (inventoryItem) {
+          await updateInventoryItem(item.inventoryId, {
+            quantity: inventoryItem.quantity - item.quantity,
+          });
+        }
+      })
+    );
 
-    createAuditLog({
-      id: `audit-${Date.now()}`,
+    await reloadRequests();
+    await reloadInventory();
+
+    await createAuditLog({
+     // id: `audit-${Date.now()}`,
       userId: session.userId,
       action: 'APPROVE',
       module: 'requests',
@@ -144,18 +149,20 @@ export default function RequestsPage() {
     setApprovalDialogOpen(true);
   };
 
-  const handleConfirmReject = () => {
+  const handleConfirmReject = async () => {
     if (!selectedRequest || !session) return;
 
-    updateRequest(selectedRequest.id, {
+    await updateRequest(selectedRequest.id, {
       status: 'rejected',
       rejectionReason: rejectionReason,
       approvalDate: new Date().toISOString(),
       approvedBy: session.userId,
     });
 
-    createAuditLog({
-      id: `audit-${Date.now()}`,
+    await reloadRequests();
+
+    await createAuditLog({
+     // id: `audit-${Date.now()}`,
       userId: session.userId,
       action: 'REJECT',
       module: 'requests',

@@ -3,7 +3,6 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { AuthSession } from '@/lib/types';
 import { getCurrentSession, logoutUser, canAccessModule } from '@/lib/auth';
-import { initializeSampleData } from '@/lib/storage';
 
 interface AuthContextType {
   session: AuthSession | null;
@@ -21,13 +20,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Initialize sample data on first load
-    initializeSampleData();
+    async function initializeSession() {
+      const currentSession = await getCurrentSession();
+      setSession(currentSession);
+      setIsLoading(false);
+    }
 
-    // Get current session
-    const currentSession = getCurrentSession();
-    setSession(currentSession);
-    setIsLoading(false);
+    initializeSession().catch((error) => {
+      console.error('Failed to initialize auth session:', error);
+      setIsLoading(false);
+    });
   }, []);
 
   const handleLogout = () => {
@@ -40,7 +42,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const handleCanAccess = (module: string) => {
-    return canAccessModule(module);
+    return canAccessModule(module, session);
   };
 
   return (

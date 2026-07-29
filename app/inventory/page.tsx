@@ -12,15 +12,11 @@ import { useAuth } from '@/hooks/useAuth';
 import { InventoryItem } from '@/lib/types';
 import { Plus } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
-import {
-  createInventoryItem,
-  updateInventoryItem,
-  deleteInventoryItem,
-  createAuditLog,
-} from '@/lib/storage';
+import { createInventoryItem, updateInventoryItem, deleteInventoryItem } from '@/lib/services/inventory';
+import { createAuditLog } from '@/lib/services/audit';
 
 export default function InventoryPage() {
-  const { inventory } = useInventory();
+  const { inventory, reload: reloadInventory } = useInventory();
   const { session } = useAuth();
   const [formOpen, setFormOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
@@ -41,19 +37,19 @@ export default function InventoryPage() {
     setDeleteOpen(true);
   };
 
-  const handleSaveItem = (data: Omit<InventoryItem, 'id' | 'createdAt' | 'updatedAt'> & { id?: string }) => {
+  const handleSaveItem = async (data: Omit<InventoryItem, 'id' | 'createdAt' | 'updatedAt'> & { id?: string }) => {
     if (data.id) {
-      // Update
-      updateInventoryItem(data.id, {
+      await updateInventoryItem(data.id, {
         name: data.name,
         category: data.category,
         quantity: data.quantity,
         unitOfMeasure: data.unitOfMeasure,
         minStock: data.minStock,
       });
+      await reloadInventory();
 
       if (session) {
-        createAuditLog({
+        await createAuditLog({
           id: `audit-${Date.now()}`,
           userId: session.userId,
           action: 'UPDATE',
@@ -70,9 +66,7 @@ export default function InventoryPage() {
         variant: 'default',
       });
     } else {
-      // Create
-      const newItem: InventoryItem = {
-        id: `inv-${Date.now()}`,
+      const newItem = {
         name: data.name,
         category: data.category,
         quantity: data.quantity,
@@ -82,17 +76,18 @@ export default function InventoryPage() {
         updatedAt: new Date().toISOString(),
       };
 
-      createInventoryItem(newItem);
+      const created = await createInventoryItem(newItem);
+      await reloadInventory();
 
       if (session) {
-        createAuditLog({
+        await createAuditLog({
           id: `audit-${Date.now()}`,
           userId: session.userId,
           action: 'CREATE',
           module: 'inventory',
           description: `Creó artículo de inventario: ${data.name}`,
           timestamp: new Date().toISOString(),
-          affectedRecordId: newItem.id,
+          affectedRecordId: created.id,
         });
       }
 
@@ -106,11 +101,12 @@ export default function InventoryPage() {
     setFormOpen(false);
   };
 
-  const handleConfirmDelete = () => {
+  const handleConfirmDelete = async () => {
     if (selectedItem && session) {
-      deleteInventoryItem(selectedItem.id);
+      await deleteInventoryItem(selectedItem.id);
+      await reloadInventory();
 
-      createAuditLog({
+      await createAuditLog({
         id: `audit-${Date.now()}`,
         userId: session.userId,
         action: 'DELETE',

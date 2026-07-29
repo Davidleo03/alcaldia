@@ -10,14 +10,15 @@ import { useInventory, useRequests } from '@/hooks/useStorage';
 import { useAuth } from '@/hooks/useAuth';
 import { RequestItem } from '@/lib/types';
 import { REQUEST_TYPES } from '@/lib/constants';
-import { createRequest, createAuditLog } from '@/lib/storage';
+import { createRequest } from '@/lib/services/requests';
+import { createAuditLog } from '@/lib/services/audit';
 import { Plus, X } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 
 export default function NewRequestPage() {
   const { inventory } = useInventory();
-  const { requests, setRequests } = useRequests();
+  const { reload: reloadRequests } = useRequests();
   const { session } = useAuth();
   const router = useRouter();
 
@@ -72,7 +73,7 @@ export default function NewRequestPage() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!validateForm()) return;
@@ -90,9 +91,10 @@ export default function NewRequestPage() {
       requestDate: new Date().toISOString(),
     };
 
-    createRequest(request);
+    await createRequest(request);
+    await reloadRequests();
 
-    createAuditLog({
+    await createAuditLog({
       id: `audit-${Date.now()}`,
       userId: session.userId,
       action: 'CREATE',

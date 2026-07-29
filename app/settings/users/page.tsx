@@ -44,15 +44,11 @@ import { useAuth } from '@/hooks/useAuth';
 import { User, UserRole } from '@/lib/types';
 import { Plus, MoreHorizontal } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
-import {
-  createUser,
-  updateUser,
-  deleteUser,
-  createAuditLog,
-} from '@/lib/storage';
+import { createUser, updateUser, deleteUser } from '@/lib/services/users';
+import { createAuditLog } from '@/lib/services/audit';
 
 export default function UsersPage() {
-  const { users } = useUsers();
+  const { users, reload: reloadUsers } = useUsers();
   const { departments } = useDepartments();
   const { session } = useAuth();
   const [formOpen, setFormOpen] = useState(false);
@@ -117,7 +113,7 @@ export default function UsersPage() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!validateForm()) return;
 
     if (selectedUser) {
@@ -132,11 +128,12 @@ export default function UsersPage() {
         updates.password = formData.password;
       }
 
-      updateUser(selectedUser.id, updates);
+      await updateUser(selectedUser.id, updates);
+      await reloadUsers();
 
       if (session) {
-        createAuditLog({
-          id: `audit-${Date.now()}`,
+        await createAuditLog({
+          //id: `audit-${Date.now()}`,
           userId: session.userId,
           action: 'UPDATE',
           module: 'users',
@@ -152,8 +149,7 @@ export default function UsersPage() {
         variant: 'default',
       });
     } else {
-      const newUser: User = {
-        id: `user-${Date.now()}`,
+      const newUser = {
         email: formData.email,
         name: formData.name,
         password: formData.password,
@@ -163,17 +159,18 @@ export default function UsersPage() {
         isActive: true,
       };
 
-      createUser(newUser);
+      const created = await createUser(newUser);
+      await reloadUsers();
 
       if (session) {
-        createAuditLog({
+        await createAuditLog({
           id: `audit-${Date.now()}`,
           userId: session.userId,
           action: 'CREATE',
           module: 'users',
           description: `Creó usuario: ${formData.email}`,
           timestamp: new Date().toISOString(),
-          affectedRecordId: newUser.id,
+          affectedRecordId: created.id,
         });
       }
 
@@ -187,11 +184,12 @@ export default function UsersPage() {
     setFormOpen(false);
   };
 
-  const handleConfirmDelete = () => {
+  const handleConfirmDelete = async () => {
     if (selectedUser && session) {
-      deleteUser(selectedUser.id);
+      await deleteUser(selectedUser.id);
+      await reloadUsers();
 
-      createAuditLog({
+      await createAuditLog({
         id: `audit-${Date.now()}`,
         userId: session.userId,
         action: 'DELETE',

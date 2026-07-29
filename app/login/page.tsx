@@ -22,7 +22,7 @@ export default function LoginPage() {
     setError('');
     setIsLoading(true);
 
-    const result = authenticateUser(email, password);
+    const result = await authenticateUser(email, password);
 
     if (result.success && result.session) {
       login(result.session);

@@ -1,101 +1,81 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import {
-  getUsers,
-  setUsers as persistUsers,
-  getDepartments,
-  setDepartments as persistDepartments,
-  getInventory,
-  setInventory as persistInventory,
-  getRequests,
-  setRequests as persistRequests,
-  getAuditLogs,
-  setAuditLogs as persistAuditLogs,
-  createAuditLog,
-  STORAGE_SYNC_EVENT,
-  STORAGE_KEYS,
-} from '@/lib/storage';
+import { getUsers as fetchUsers } from '@/lib/services/users';
+import { getDepartments as fetchDepartments, getActiveDepartments as fetchActiveDepartments } from '@/lib/services/departments';
+import { getInventory as fetchInventory } from '@/lib/services/inventory';
+import { getRequests as fetchRequests } from '@/lib/services/requests';
+import { getAuditLogs as fetchAuditLogs } from '@/lib/services/audit';
 import type { User, Department, InventoryItem, MaterialRequest, AuditLog } from '@/lib/types';
 
-function useStorageCollection<T>(
-  storageKey: string,
-  read: () => T[],
-  write: (value: T[]) => void,
-) {
-  const [state, setState] = useState<T[]>(read);
-
-  const syncFromStorage = useCallback(() => {
-    setState(read());
-  }, [read]);
+export function useUsers() {
+  const [users, setUsers] = useState<User[]>([]);
+  const loadUsers = useCallback(async () => {
+    const data = await fetchUsers();
+    setUsers(data);
+  }, []);
 
   useEffect(() => {
-    syncFromStorage();
+    loadUsers().catch(console.error);
+  }, [loadUsers]);
 
-    const handleStorageChange = (event: Event) => {
-      const detail = (event as CustomEvent<{ key?: string }>).detail;
-      if (!detail?.key || detail.key === storageKey) {
-        syncFromStorage();
-        window.setTimeout(() => {
-          window.location.reload();
-        }, 2000);
-      }
-    };
-
-    window.addEventListener(STORAGE_SYNC_EVENT, handleStorageChange as EventListener);
-    window.addEventListener('storage', handleStorageChange as EventListener);
-
-    return () => {
-      window.removeEventListener(STORAGE_SYNC_EVENT, handleStorageChange as EventListener);
-      window.removeEventListener('storage', handleStorageChange as EventListener);
-    };
-  }, [storageKey, syncFromStorage]);
-
-  const updateState = useCallback((valueOrUpdater: T[] | ((prev: T[]) => T[])) => {
-    setState(prev => {
-      const nextValue = typeof valueOrUpdater === 'function' ? valueOrUpdater(prev) : valueOrUpdater;
-      write(nextValue);
-      return nextValue;
-    });
-  }, [write]);
-
-  return { state, setState: updateState, syncFromStorage };
-}
-
-export function useUsers() {
-  const { state: users, setState: setUsersState } = useStorageCollection<User>(STORAGE_KEYS.USERS, getUsers, persistUsers);
-
-  return { users, setUsers: setUsersState };
+  return { users, reload: loadUsers };
 }
 
 export function useDepartments() {
-  const { state: departments, setState: setDepartmentsState } = useStorageCollection<Department>(STORAGE_KEYS.DEPARTMENTS, getDepartments, persistDepartments);
+  const [departments, setDepartments] = useState<Department[]>([]);
+  const loadDepartments = useCallback(async () => {
+    const data = await fetchDepartments();
+    setDepartments(data);
+  }, []);
+
+  useEffect(() => {
+    loadDepartments().catch(console.error);
+  }, [loadDepartments]);
 
   const activeDepartments = departments.filter(d => d.active === true);
 
-  return { departments, activeDepartments, setDepartments: setDepartmentsState };
+  return { departments, activeDepartments, reload: loadDepartments };
 }
 
 export function useInventory() {
-  const { state: inventory, setState: setInventoryState } = useStorageCollection<InventoryItem>(STORAGE_KEYS.INVENTORY, getInventory, persistInventory);
+  const [inventory, setInventory] = useState<InventoryItem[]>([]);
+  const loadInventory = useCallback(async () => {
+    const data = await fetchInventory();
+    setInventory(data);
+  }, []);
 
-  return { inventory, setInventory: setInventoryState };
+  useEffect(() => {
+    loadInventory().catch(console.error);
+  }, [loadInventory]);
+
+  return { inventory, reload: loadInventory };
 }
 
 export function useRequests() {
-  const { state: requests, setState: setRequestsState } = useStorageCollection<MaterialRequest>(STORAGE_KEYS.REQUESTS, getRequests, persistRequests);
+  const [requests, setRequests] = useState<MaterialRequest[]>([]);
+  const loadRequests = useCallback(async () => {
+    const data = await fetchRequests();
+    setRequests(data);
+  }, []);
 
-  return { requests, setRequests: setRequestsState };
+  useEffect(() => {
+    loadRequests().catch(console.error);
+  }, [loadRequests]);
+
+  return { requests, reload: loadRequests };
 }
 
 export function useAuditLogs() {
-  const { state: logs, setState: setLogsState, syncFromStorage } = useStorageCollection<AuditLog>(STORAGE_KEYS.AUDIT_LOGS, getAuditLogs, persistAuditLogs);
+  const [logs, setLogs] = useState<AuditLog[]>([]);
+  const loadLogs = useCallback(async () => {
+    const data = await fetchAuditLogs();
+    setLogs(data);
+  }, []);
 
-  const addLog = useCallback((log: AuditLog) => {
-    createAuditLog(log);
-    setLogsState(prev => [...prev, log]);
-    syncFromStorage();
-  }, [setLogsState, syncFromStorage]);
+  useEffect(() => {
+    loadLogs().catch(console.error);
+  }, [loadLogs]);
 
-  return { logs, addLog };
+  return { logs, reload: loadLogs };
 }
