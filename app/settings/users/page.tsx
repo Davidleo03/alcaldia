@@ -164,7 +164,7 @@ export default function UsersPage() {
 
       if (session) {
         await createAuditLog({
-          id: `audit-${Date.now()}`,
+          //id: `audit-${Date.now()}`,
           userId: session.userId,
           action: 'CREATE',
           module: 'users',
@@ -190,7 +190,7 @@ export default function UsersPage() {
       await reloadUsers();
 
       await createAuditLog({
-        id: `audit-${Date.now()}`,
+        //id: `audit-${Date.now()}`,
         userId: session.userId,
         action: 'DELETE',
         module: 'users',
