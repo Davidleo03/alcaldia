@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS departments (
   id TEXT PRIMARY KEY,
   name TEXT NOT NULL,
   description TEXT NOT NULL,
-  "createdAt" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   active BOOLEAN NOT NULL DEFAULT TRUE
 );
 
@@ -16,9 +16,9 @@ CREATE TABLE IF NOT EXISTS users (
   password TEXT NOT NULL,
   name TEXT NOT NULL,
   role TEXT NOT NULL CHECK (role IN ('admin', 'department-user')),
-  "departmentId" TEXT REFERENCES departments(id) ON DELETE SET NULL,
-  "createdAt" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  "isActive" BOOLEAN NOT NULL DEFAULT TRUE
+  "department_id" TEXT REFERENCES departments(id) ON DELETE SET NULL,
+  "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  "is_active" BOOLEAN NOT NULL DEFAULT TRUE
 );
 
 -- Inventory table
@@ -29,14 +29,14 @@ CREATE TABLE IF NOT EXISTS inventory_items (
   quantity INTEGER NOT NULL DEFAULT 0,
   "unitOfMeasure" TEXT NOT NULL,
   "minStock" INTEGER NOT NULL DEFAULT 0,
-  "createdAt" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   "updatedAt" TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
 -- Requests table
 CREATE TABLE IF NOT EXISTS requests (
   id TEXT PRIMARY KEY,
-  "departmentId" TEXT NOT NULL REFERENCES departments(id) ON DELETE RESTRICT,
+  "department_id" TEXT NOT NULL REFERENCES departments(id) ON DELETE RESTRICT,
   "userId" TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   items JSONB NOT NULL,
   status TEXT NOT NULL CHECK (status IN ('pending', 'approved', 'rejected')),
@@ -63,5 +63,5 @@ CREATE TABLE IF NOT EXISTS audit_logs (
 -- Indexes
 CREATE INDEX IF NOT EXISTS idx_requests_status ON requests (status);
 CREATE INDEX IF NOT EXISTS idx_requests_user_id ON requests ("userId");
-CREATE INDEX IF NOT EXISTS idx_requests_department_id ON requests ("departmentId");
+CREATE INDEX IF NOT EXISTS idx_requests_department_id ON requests ("department_id");
 CREATE INDEX IF NOT EXISTS idx_audit_logs_user_id ON audit_logs ("userId");

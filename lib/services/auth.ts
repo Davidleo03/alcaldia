@@ -45,7 +45,7 @@ export async function loginWithEmail(
     email: user.email,
     name: user.name,
     role: user.role,
-    departmentId: user.departmentId ?? undefined,
+    department_id: user.department_id ?? undefined,
     isAuthenticated: true,
   };
 

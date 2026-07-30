@@ -59,13 +59,13 @@ export default function UsersPage() {
     name: string;
     password: string;
     role: UserRole;
-    departmentId: string;
+    department_id: string;
   }>({
     email: '',
     name: '',
     password: '',
     role: 'department-user',
-    departmentId: '',
+    department_id: '',
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -76,7 +76,7 @@ export default function UsersPage() {
       name: '',
       password: '',
       role: 'department-user',
-      departmentId: '',
+      department_id: '',
     });
     setFormOpen(true);
   };
@@ -88,7 +88,7 @@ export default function UsersPage() {
       name: user.name,
       password: '',
       role: user.role,
-      departmentId: user.departmentId || '',
+      department_id: user.department_id || '',
     });
     setFormOpen(true);
   };
@@ -106,8 +106,8 @@ export default function UsersPage() {
     if (formData.password && formData.password.length < 6) {
       newErrors.password = 'La contraseña debe tener al menos 6 caracteres';
     }
-    if (formData.role === 'department-user' && !formData.departmentId) {
-      newErrors.departmentId = 'El departamento es obligatorio para usuarios de departamento';
+    if (formData.role === 'department-user' && !formData.department_id) {
+      newErrors.department_id = 'El departamento es obligatorio para usuarios de departamento';
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -121,7 +121,7 @@ export default function UsersPage() {
         email: formData.email,
         name: formData.name,
         role: formData.role,
-        departmentId: formData.role === 'department-user' ? formData.departmentId : undefined,
+        department_id: formData.role === 'department-user' ? formData.department_id : undefined,
       };
 
       if (formData.password) {
@@ -154,9 +154,9 @@ export default function UsersPage() {
         name: formData.name,
         password: formData.password,
         role: formData.role,
-        departmentId: formData.role === 'department-user' ? formData.departmentId : undefined,
-        createdAt: new Date().toISOString(),
-        isActive: true,
+        department_id: formData.role === 'department-user' ? formData.department_id : undefined,
+        created_at: new Date().toISOString(),
+        is_active: true,
       };
 
       const created = await createUser(newUser);
@@ -271,12 +271,12 @@ export default function UsersPage() {
                         </TableCell>
 
                         <TableCell className="hidden md:table-cell text-muted-foreground">
-                          {getDepartmentName(user.departmentId)}
+                          {getDepartmentName(user.department_id)}
                         </TableCell>
 
                         <TableCell className="hidden md:table-cell">
-                          <Badge className={user.isActive ? 'bg-success text-success-foreground hover:bg-success/90' : 'bg-muted text-muted-foreground hover:bg-muted/90'}>
-                            {user.isActive ? 'Activo' : 'Inactivo'}
+                          <Badge className={user.is_active ? 'bg-success text-success-foreground hover:bg-success/90' : 'bg-muted text-muted-foreground hover:bg-muted/90'}>
+                            {user.is_active ? 'Activo' : 'Inactivo'}
                           </Badge>
                         </TableCell>
 
@@ -375,9 +375,9 @@ export default function UsersPage() {
                   <Label htmlFor="department">Department</Label>
                   <select
                     id="department"
-                    value={formData.departmentId}
-                    onChange={(e) => setFormData(prev => ({ ...prev, departmentId: e.target.value }))}
-                    className={`w-full px-3 py-2 border rounded-md bg-input text-card-foreground ${errors.departmentId ? 'border-destructive' : 'border-border'
+                    value={formData.department_id}
+                    onChange={(e) => setFormData(prev => ({ ...prev, department_id: e.target.value }))}
+                    className={`w-full px-3 py-2 border rounded-md bg-input text-card-foreground ${errors.department_id ? 'border-destructive' : 'border-border'
                       }`}
                   >
                     <option value="">Seleccionar departamento</option>
@@ -387,7 +387,7 @@ export default function UsersPage() {
                       </option>
                     ))}
                   </select>
-                  {errors.departmentId && <p className="text-xs text-destructive mt-1">{errors.departmentId}</p>}
+                  {errors.department_id && <p className="text-xs text-destructive mt-1">{errors.department_id}</p>}
                 </div>
               )}
             </div>

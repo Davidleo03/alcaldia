@@ -37,7 +37,7 @@ export default function InventoryPage() {
     setDeleteOpen(true);
   };
 
-  const handleSaveItem = async (data: Omit<InventoryItem, 'id' | 'createdAt' | 'updatedAt'> & { id?: string }) => {
+  const handleSaveItem = async (data: Omit<InventoryItem, 'id' | 'created_at' | 'updatedAt'> & { id?: string }) => {
     if (data.id) {
       await updateInventoryItem(data.id, {
         name: data.name,
@@ -72,7 +72,7 @@ export default function InventoryPage() {
         quantity: data.quantity,
         unitOfMeasure: data.unitOfMeasure,
         minStock: data.minStock,
-        createdAt: new Date().toISOString(),
+        created_at: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       };
 

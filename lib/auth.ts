@@ -69,7 +69,7 @@ export async function getCurrentSession(): Promise<AuthSession | null> {
     user = await getUserByEmail(normalizedEmail);
   }
 
-  if (!user || !user.isActive) {
+  if (!user || !user.is_active) {
     saveSessionToLocalStorage(null);
     return null;
   }
@@ -79,7 +79,7 @@ export async function getCurrentSession(): Promise<AuthSession | null> {
     email: user.email,
     name: user.name,
     role: user.role,
-    departmentId: user.departmentId ?? undefined,
+    department_id: user.department_id ?? undefined,
     isAuthenticated: true,
   };
 

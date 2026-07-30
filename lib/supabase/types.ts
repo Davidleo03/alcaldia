@@ -10,9 +10,9 @@ export interface Database {
           password: string;
           name: string;
           role: 'admin' | 'department-user';
-          departmentId: string | null;
-          createdAt: string;
-          isActive: boolean;
+          department_id: string | null;
+          created_at: string;
+          is_active: boolean;
         };
         Insert: {
           id?: string;
@@ -20,9 +20,9 @@ export interface Database {
           password: string;
           name: string;
           role: 'admin' | 'department-user';
-          departmentId?: string | null;
-          createdAt?: string;
-          isActive?: boolean;
+          department_id?: string | null;
+          created_at?: string;
+          is_active?: boolean;
         };
         Update: {
           id?: string;
@@ -30,9 +30,9 @@ export interface Database {
           password?: string;
           name?: string;
           role?: 'admin' | 'department-user';
-          departmentId?: string | null;
-          createdAt?: string;
-          isActive?: boolean;
+          department_id?: string | null;
+          created_at?: string;
+          is_active?: boolean;
         };
         Relationships: [];
       };
@@ -41,21 +41,21 @@ export interface Database {
           id: string;
           name: string;
           description: string;
-          createdAt: string;
+          created_at: string;
           active: boolean;
         };
         Insert: {
           id?: string;
           name: string;
           description: string;
-          createdAt?: string;
+          created_at?: string;
           active?: boolean;
         };
         Update: {
           id?: string;
           name?: string;
           description?: string;
-          createdAt?: string;
+          created_at?: string;
           active?: boolean;
         };
         Relationships: [];
@@ -68,7 +68,7 @@ export interface Database {
           quantity: number;
           unitOfMeasure: string;
           minStock: number;
-          createdAt: string;
+          created_at: string;
           updatedAt: string;
         };
         Insert: {
@@ -78,7 +78,7 @@ export interface Database {
           quantity: number;
           unitOfMeasure: string;
           minStock: number;
-          createdAt?: string;
+          created_at?: string;
           updatedAt?: string;
         };
         Update: {
@@ -88,7 +88,7 @@ export interface Database {
           quantity?: number;
           unitOfMeasure?: string;
           minStock?: number;
-          createdAt?: string;
+          created_at?: string;
           updatedAt?: string;
         };
         Relationships: [];
@@ -96,7 +96,7 @@ export interface Database {
       requests: {
         Row: {
           id: string;
-          departmentId: string;
+          department_id: string;
           userId: string;
           items: Json;
           status: 'pending' | 'approved' | 'rejected';
@@ -109,7 +109,7 @@ export interface Database {
         };
         Insert: {
           id?: string;
-          departmentId: string;
+          department_id: string;
           userId: string;
           items: Json;
           status?: 'pending' | 'approved' | 'rejected';
@@ -122,7 +122,7 @@ export interface Database {
         };
         Update: {
           id?: string;
-          departmentId?: string;
+          department_id?: string;
           userId?: string;
           items?: Json;
           status?: 'pending' | 'approved' | 'rejected';

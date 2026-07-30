@@ -20,8 +20,8 @@ export async function getRequestById(id: string): Promise<MaterialRequest | null
   return (data ?? null) as MaterialRequest | null;
 }
 
-export async function getRequestsByDepartment(departmentId: string) {
-  const { data, error } = await supabase.from(table).select('*').eq('departmentId', departmentId);
+export async function getRequestsByDepartment(department_id: string) {
+  const { data, error } = await supabase.from(table).select('*').eq('department_id', department_id);
   if (error) throw error;
   return data ?? [] ;
 }

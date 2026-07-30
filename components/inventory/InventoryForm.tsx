@@ -19,7 +19,7 @@ interface InventoryFormProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   item?: InventoryItem;
-  onSave: (item: Omit<InventoryItem, 'id' | 'createdAt' | 'updatedAt'> & { id?: string }) => void;
+  onSave: (item: Omit<InventoryItem, 'id' | 'created_at' | 'updatedAt'> & { id?: string }) => void;
 }
 
 export function InventoryForm({ open, onOpenChange, item, onSave }: InventoryFormProps) {

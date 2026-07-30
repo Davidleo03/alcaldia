@@ -173,8 +173,8 @@ export function getRequestById(id: string): MaterialRequest | undefined {
   return getRequests().find(r => r.id === id);
 }
 
-export function getRequestsByDepartment(departmentId: string): MaterialRequest[] {
-  return getRequests().filter(r => r.departmentId === departmentId);
+export function getRequestsByDepartment(department_id: string): MaterialRequest[] {
+  return getRequests().filter(r => r.department_id === department_id);
 }
 
 export function getRequestsByUser(userId: string): MaterialRequest[] {
@@ -246,21 +246,21 @@ export function initializeSampleData(): void {
       id: 'dept-001',
       name: 'IT Department',
       description: 'Information Technology',
-      createdAt: new Date().toISOString(),
+      created_at: new Date().toISOString(),
       active: true,
     },
     {
       id: 'dept-002',
       name: 'HR Department',
       description: 'Human Resources',
-      createdAt: new Date().toISOString(),
+      created_at: new Date().toISOString(),
       active: true,
     },
     {
       id: 'dept-003',
       name: 'Maintenance',
       description: 'Building Maintenance',
-      createdAt: new Date().toISOString(),
+      created_at: new Date().toISOString(),
       active: true,
     },
   ];
@@ -273,8 +273,8 @@ export function initializeSampleData(): void {
       password: 'admin123', // Demo password
       name: 'Admin User',
       role: 'admin',
-      createdAt: new Date().toISOString(),
-      isActive: true,
+      created_at: new Date().toISOString(),
+      is_active: true,
     },
     {
       id: 'user-002',
@@ -282,9 +282,9 @@ export function initializeSampleData(): void {
       password: 'it123',
       name: 'IT Manager',
       role: 'department-user',
-      departmentId: 'dept-001',
-      createdAt: new Date().toISOString(),
-      isActive: true,
+      department_id: 'dept-001',
+      created_at: new Date().toISOString(),
+      is_active: true,
     },
     {
       id: 'user-003',
@@ -292,9 +292,9 @@ export function initializeSampleData(): void {
       password: 'hr123',
       name: 'HR Manager',
       role: 'department-user',
-      departmentId: 'dept-002',
-      createdAt: new Date().toISOString(),
-      isActive: true,
+      department_id: 'dept-002',
+      created_at: new Date().toISOString(),
+      is_active: true,
     },
   ];
 
@@ -307,7 +307,7 @@ export function initializeSampleData(): void {
       quantity: 25,
       unitOfMeasure: 'units',
       minStock: 10,
-      createdAt: new Date().toISOString(),
+      created_at: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     },
     {
@@ -317,7 +317,7 @@ export function initializeSampleData(): void {
       quantity: 150,
       unitOfMeasure: 'reams',
       minStock: 50,
-      createdAt: new Date().toISOString(),
+      created_at: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     },
     {
@@ -327,7 +327,7 @@ export function initializeSampleData(): void {
       quantity: 8,
       unitOfMeasure: 'boxes',
       minStock: 5,
-      createdAt: new Date().toISOString(),
+      created_at: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     },
     {
@@ -337,7 +337,7 @@ export function initializeSampleData(): void {
       quantity: 5,
       unitOfMeasure: 'units',
       minStock: 3,
-      createdAt: new Date().toISOString(),
+      created_at: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     },
     {
@@ -347,7 +347,7 @@ export function initializeSampleData(): void {
       quantity: 12,
       unitOfMeasure: 'boxes',
       minStock: 5,
-      createdAt: new Date().toISOString(),
+      created_at: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     },
   ];

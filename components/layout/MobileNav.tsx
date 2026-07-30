@@ -50,7 +50,7 @@ export function MobileNav() {
       <div className="flex justify-around h-16">
         {items.map((item) => {
           const Icon = iconMap[item.icon as keyof typeof iconMap];
-          const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
+          const is_active = pathname === item.href || pathname.startsWith(item.href + '/');
 
           return (
             <Link
@@ -58,7 +58,7 @@ export function MobileNav() {
               href={item.href}
               className={cn(
                 'flex flex-col items-center justify-center flex-1 text-xs font-medium transition-colors',
-                isActive
+                is_active
                   ? 'text-primary-foreground border-t-4 border-primary bg-sidebar/60'
                   : 'text-sidebar-foreground/70 hover:text-sidebar-foreground'
               )}

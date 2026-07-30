@@ -73,15 +73,15 @@ export function Sidebar() {
       <nav className="flex-1 space-y-1 p-2 overflow-y-auto">
         {items.map((item) => {
           const Icon = iconMap[item.icon as keyof typeof iconMap];
-          const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
+          const is_active = pathname === item.href || pathname.startsWith(item.href + '/');
 
           return (
             <Link key={item.href} href={item.href}>
               <Button
-                variant={isActive ? 'default' : 'ghost'}
+                variant={is_active ? 'default' : 'ghost'}
                 className={cn(
                   'w-full justify-start text-sidebar-foreground/80 hover:text-sidebar-foreground hover:bg-sidebar/70',
-                  isActive && 'bg-primary hover:bg-primary/90 text-primary-foreground'
+                  is_active && 'bg-primary hover:bg-primary/90 text-primary-foreground'
                 )}
               >
                 <Icon className="h-5 w-5" />

@@ -272,7 +272,7 @@ export default function RequestsPage() {
                         {/* Prioritarias */}
                         {session?.role === 'admin' && (
                           <TableCell className="text-sm">
-                            {getDepartmentName(request.departmentId)}
+                            {getDepartmentName(request.department_id)}
                           </TableCell>
                         )}
                         <TableCell className="text-sm">{request.items.length} artículo(s)</TableCell>
@@ -329,7 +329,7 @@ export default function RequestsPage() {
                   </div>
                   <div>
                     <p className="text-xs font-semibold text-muted-foreground/80">Departamento</p>
-                    <p className="mt-1">{getDepartmentName(selectedRequest.departmentId)}</p>
+                    <p className="mt-1">{getDepartmentName(selectedRequest.department_id)}</p>
                   </div>
                   <div>
                     <p className="text-xs font-semibold text-muted-foreground/80">Solicitado por</p>

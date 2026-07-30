@@ -8,9 +8,9 @@ export interface User {
   password: string; // In production, this would be hashed
   name: string;
   role: UserRole;
-  departmentId?: string;
-  createdAt: string;
-  isActive: boolean;
+  department_id?: string;
+  created_at: string;
+  is_active: boolean;
 }
 
 // Department entity
@@ -18,7 +18,7 @@ export interface Department {
   id: string;
   name: string;
   description: string;
-  createdAt: string;
+  created_at: string;
   active?: boolean;
 }
 
@@ -30,7 +30,7 @@ export interface InventoryItem {
   quantity: number;
   unitOfMeasure: string;
   minStock: number;
-  createdAt: string;
+  created_at: string;
   updatedAt: string;
 }
 
@@ -50,7 +50,7 @@ export type RequestType = 'office' | 'operative';
 // Material request entity
 export interface MaterialRequest {
   id: string;
-  departmentId: string;
+  department_id: string;
   userId: string;
   items: RequestItem[];
   status: RequestStatus;
@@ -83,6 +83,6 @@ export interface AuthSession {
   email: string;
   name: string;
   role: UserRole;
-  departmentId?: string;
+  department_id?: string;
   isAuthenticated: boolean;
 }

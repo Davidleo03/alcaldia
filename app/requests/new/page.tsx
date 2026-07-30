@@ -82,7 +82,7 @@ export default function NewRequestPage() {
 
     const request = {
       id: `req-${Date.now()}`,
-      departmentId: session.departmentId || '',
+      department_id: session.department_id || '',
       userId: session.userId,
       items: requestItems,
       status: 'pending' as const,
