@@ -41,7 +41,7 @@ export async function loginWithEmail(
   }
 
   const session: AuthSession = {
-    userId: user.id,
+    user_id: user.id,
     email: user.email,
     name: user.name,
     role: user.role,
@@ -50,7 +50,7 @@ export async function loginWithEmail(
   };
 
   await createAuditLog({
-    userId: user.id,
+    user_id: user.id,
     action: 'CREATE',
     module: 'auth',
     description: `User logged in: ${email}`,

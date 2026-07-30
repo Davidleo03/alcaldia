@@ -28,10 +28,10 @@ export interface InventoryItem {
   name: string;
   category: string;
   quantity: number;
-  unitOfMeasure: string;
-  minStock: number;
+  unit_of_measure: string;
+  min_stock: number;
   created_at: string;
-  updatedAt: string;
+  updated_at: string;
 }
 
 // Material request item
@@ -51,12 +51,12 @@ export type RequestType = 'office' | 'operative';
 export interface MaterialRequest {
   id: string;
   department_id: string;
-  userId: string;
+  user_id: string;
   items: RequestItem[];
   status: RequestStatus;
   type: RequestType;
   reason: string;
-  requestDate: string;
+  request_date: string;
   approvalDate?: string;
   approvedBy?: string;
   rejectionReason?: string;
@@ -68,7 +68,7 @@ export type AuditModule = 'inventory' | 'requests' | 'departments' | 'users' | '
 
 export interface AuditLog {
   id: string;
-  userId: string;
+  user_id: string;
   action: AuditAction;
   module: AuditModule;
   description: string;
@@ -79,7 +79,7 @@ export interface AuditLog {
 
 // Session/Auth state
 export interface AuthSession {
-  userId: string;
+  user_id: string;
   email: string;
   name: string;
   role: UserRole;

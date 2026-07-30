@@ -150,7 +150,7 @@ export function updateInventoryItem(id: string, updates: Partial<InventoryItem>)
   const inventory = getInventory();
   const index = inventory.findIndex(i => i.id === id);
   if (index !== -1) {
-    inventory[index] = { ...inventory[index], ...updates, updatedAt: new Date().toISOString() };
+    inventory[index] = { ...inventory[index], ...updates, updated_at: new Date().toISOString() };
     setInventory(inventory);
   }
 }
@@ -177,8 +177,8 @@ export function getRequestsByDepartment(department_id: string): MaterialRequest[
   return getRequests().filter(r => r.department_id === department_id);
 }
 
-export function getRequestsByUser(userId: string): MaterialRequest[] {
-  return getRequests().filter(r => r.userId === userId);
+export function getRequestsByUser(user_id: string): MaterialRequest[] {
+  return getRequests().filter(r => r.user_id === user_id);
 }
 
 export function createRequest(request: MaterialRequest): void {
@@ -216,8 +216,8 @@ export function createAuditLog(log: AuditLog): void {
   setAuditLogs(logs);
 }
 
-export function getAuditLogsByUser(userId: string): AuditLog[] {
-  return getAuditLogs().filter(log => log.userId === userId);
+export function getAuditLogsByUser(user_id: string): AuditLog[] {
+  return getAuditLogs().filter(log => log.user_id === user_id);
 }
 
 // Session operations
@@ -305,50 +305,50 @@ export function initializeSampleData(): void {
       name: 'Office Chairs',
       category: 'Office Furniture',
       quantity: 25,
-      unitOfMeasure: 'units',
-      minStock: 10,
+      unit_of_measure: 'units',
+      min_stock: 10,
       created_at: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
     },
     {
       id: 'inv-002',
       name: 'Printer Paper A4',
       category: 'Office Supplies',
       quantity: 150,
-      unitOfMeasure: 'reams',
-      minStock: 50,
+      unit_of_measure: 'reams',
+      min_stock: 50,
       created_at: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
     },
     {
       id: 'inv-003',
       name: 'Cleaning Supplies',
       category: 'Maintenance',
       quantity: 8,
-      unitOfMeasure: 'boxes',
-      minStock: 5,
+      unit_of_measure: 'boxes',
+      min_stock: 5,
       created_at: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
     },
     {
       id: 'inv-004',
       name: 'Computer Monitors',
       category: 'IT Equipment',
       quantity: 5,
-      unitOfMeasure: 'units',
-      minStock: 3,
+      unit_of_measure: 'units',
+      min_stock: 3,
       created_at: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
     },
     {
       id: 'inv-005',
       name: 'Ink Cartridges',
       category: 'Office Supplies',
       quantity: 12,
-      unitOfMeasure: 'boxes',
-      minStock: 5,
+      unit_of_measure: 'boxes',
+      min_stock: 5,
       created_at: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
     },
   ];
 

@@ -42,7 +42,7 @@ export default function AuditPage() {
       .filter(log => {
         const matchesSearch =
           log.description.toLowerCase().includes(search.toLowerCase()) ||
-          log.userId.toLowerCase().includes(search.toLowerCase());
+          log.user_id.toLowerCase().includes(search.toLowerCase());
         const matchesAction = filterAction === 'all' || log.action === filterAction;
         const matchesModule = filterModule === 'all' || log.module === filterModule;
         return matchesSearch && matchesAction && matchesModule;
@@ -50,8 +50,8 @@ export default function AuditPage() {
       .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
   }, [logs, search, filterAction, filterModule]);
 
-  const getUserName = (userId: string) => {
-    return users.find(u => u.id === userId)?.name || 'Usuario desconocido';
+  const getUserName = (user_id: string) => {
+    return users.find(u => u.id === user_id)?.name || 'Usuario desconocido';
   };
 
   const formatDate = (dateString: string) => {
@@ -142,7 +142,7 @@ export default function AuditPage() {
                           {formatDate(log.timestamp)}
                         </TableCell>
                         <TableCell className="font-medium text-sm">
-                          {getUserName(log.userId)}
+                          {getUserName(log.user_id)}
                         </TableCell>
                         <TableCell>
                           <Badge className={actionColors[log.action]}>

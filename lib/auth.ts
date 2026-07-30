@@ -75,7 +75,7 @@ export async function getCurrentSession(): Promise<AuthSession | null> {
   }
 
   const session: AuthSession = {
-    userId: user.id,
+    user_id: user.id,
     email: user.email,
     name: user.name,
     role: user.role,
@@ -97,7 +97,7 @@ export async function logoutUser(): Promise<void> {
 
   if (session) {
     createAuditLog({
-      userId: session.userId,
+      user_id: session.user_id,
       action: 'CREATE',
       module: 'auth',
       description: 'User logged out',

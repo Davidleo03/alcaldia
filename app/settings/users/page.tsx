@@ -134,7 +134,7 @@ export default function UsersPage() {
       if (session) {
         await createAuditLog({
           //id: `audit-${Date.now()}`,
-          userId: session.userId,
+          user_id: session.user_id,
           action: 'UPDATE',
           module: 'users',
           description: `Actualizó usuario: ${formData.email}`,
@@ -165,7 +165,7 @@ export default function UsersPage() {
       if (session) {
         await createAuditLog({
           //id: `audit-${Date.now()}`,
-          userId: session.userId,
+          user_id: session.user_id,
           action: 'CREATE',
           module: 'users',
           description: `Creó usuario: ${formData.email}`,
@@ -191,7 +191,7 @@ export default function UsersPage() {
 
       await createAuditLog({
         //id: `audit-${Date.now()}`,
-        userId: session.userId,
+        user_id: session.user_id,
         action: 'DELETE',
         module: 'users',
         description: `Eliminó usuario: ${selectedUser.email}`,

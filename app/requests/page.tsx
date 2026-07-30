@@ -63,7 +63,7 @@ export default function RequestsPage() {
     if (session?.role === 'admin') {
       return requests;
     }
-    return requests.filter(r => r.userId === session?.userId);
+    return requests.filter(r => r.user_id === session?.user_id);
   }, [requests, session]);
 
   const statuses = ['all', 'pending', 'approved', 'rejected'];
@@ -75,15 +75,15 @@ export default function RequestsPage() {
         const matchesStatus = filterStatus === 'all' || req.status === filterStatus;
         return matchesSearch && matchesStatus;
       })
-      .sort((a, b) => new Date(b.requestDate).getTime() - new Date(a.requestDate).getTime());
+      .sort((a, b) => new Date(b.request_date).getTime() - new Date(a.request_date).getTime());
   }, [userRequests, search, filterStatus]);
 
   const getDepartmentName = (deptId: string) => {
     return departments.find(d => d.id === deptId)?.name || 'Desconocido';
   };
 
-  const getUserName = (userId: string) => {
-    return users.find(u => u.id === userId)?.name || 'Desconocido';
+  const getUserName = (user_id: string) => {
+    return users.find(u => u.id === user_id)?.name || 'Desconocido';
   };
 
   const getItemName = (itemId: string) => {
@@ -106,7 +106,7 @@ export default function RequestsPage() {
     await updateRequest(selectedRequest.id, {
       status: 'approved',
       approvalDate: new Date().toISOString(),
-      approvedBy: session.userId,
+      approvedBy: session.user_id,
     });
 
     await Promise.all(
@@ -125,7 +125,7 @@ export default function RequestsPage() {
 
     await createAuditLog({
      // id: `audit-${Date.now()}`,
-      userId: session.userId,
+      user_id: session.user_id,
       action: 'APPROVE',
       module: 'requests',
       description: `Aprobó la solicitud: ${selectedRequest.reason}`,
@@ -156,14 +156,14 @@ export default function RequestsPage() {
       status: 'rejected',
       rejectionReason: rejectionReason,
       approvalDate: new Date().toISOString(),
-      approvedBy: session.userId,
+      approvedBy: session.user_id,
     });
 
     await reloadRequests();
 
     await createAuditLog({
      // id: `audit-${Date.now()}`,
-      userId: session.userId,
+      user_id: session.user_id,
       action: 'REJECT',
       module: 'requests',
       description: `Rechazó la solicitud: ${selectedRequest.reason}`,
@@ -288,7 +288,7 @@ export default function RequestsPage() {
 
                         {/* Ocultas en móvil */}
                         <TableCell className="hidden md:table-cell text-sm">
-                          {format(new Date(request.requestDate), 'MMM dd, yyyy')}
+                          {format(new Date(request.request_date), 'MMM dd, yyyy')}
                         </TableCell>
                         <TableCell className="hidden md:table-cell capitalize">{request.type}</TableCell>
                         <TableCell className="hidden md:table-cell text-sm">{request.reason}</TableCell>
@@ -333,7 +333,7 @@ export default function RequestsPage() {
                   </div>
                   <div>
                     <p className="text-xs font-semibold text-muted-foreground/80">Solicitado por</p>
-                    <p className="mt-1">{getUserName(selectedRequest.userId)}</p>
+                    <p className="mt-1">{getUserName(selectedRequest.user_id)}</p>
                   </div>
                   <div className="col-span-2">
                     <p className="text-xs font-semibold text-muted-foreground/80">Motivo</p>

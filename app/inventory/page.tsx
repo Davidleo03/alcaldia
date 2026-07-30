@@ -37,21 +37,21 @@ export default function InventoryPage() {
     setDeleteOpen(true);
   };
 
-  const handleSaveItem = async (data: Omit<InventoryItem, 'id' | 'created_at' | 'updatedAt'> & { id?: string }) => {
+  const handleSaveItem = async (data: Omit<InventoryItem, 'id' | 'created_at' | 'updated_at'> & { id?: string }) => {
     if (data.id) {
       await updateInventoryItem(data.id, {
         name: data.name,
         category: data.category,
         quantity: data.quantity,
-        unitOfMeasure: data.unitOfMeasure,
-        minStock: data.minStock,
+        unit_of_measure: data.unit_of_measure,
+        min_stock: data.min_stock,
       });
       await reloadInventory();
 
       if (session) {
         await createAuditLog({
           id: `audit-${Date.now()}`,
-          userId: session.userId,
+          user_id: session.user_id,
           action: 'UPDATE',
           module: 'inventory',
           description: `Actualizó artículo de inventario: ${data.name}`,
@@ -70,10 +70,10 @@ export default function InventoryPage() {
         name: data.name,
         category: data.category,
         quantity: data.quantity,
-        unitOfMeasure: data.unitOfMeasure,
-        minStock: data.minStock,
+        unit_of_measure: data.unit_of_measure,
+        min_stock: data.min_stock,
         created_at: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
       };
 
       const created = await createInventoryItem(newItem);
@@ -82,7 +82,7 @@ export default function InventoryPage() {
       if (session) {
         await createAuditLog({
           id: `audit-${Date.now()}`,
-          userId: session.userId,
+          user_id: session.user_id,
           action: 'CREATE',
           module: 'inventory',
           description: `Creó artículo de inventario: ${data.name}`,
@@ -108,7 +108,7 @@ export default function InventoryPage() {
 
       await createAuditLog({
         id: `audit-${Date.now()}`,
-        userId: session.userId,
+        user_id: session.user_id,
         action: 'DELETE',
         module: 'inventory',
         description: `Eliminó artículo de inventario: ${selectedItem.name}`,

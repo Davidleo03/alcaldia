@@ -22,12 +22,12 @@ export function StockLevelsChart() {
   const { inventory } = useInventory();
 
   const data = inventory
-    .filter(item => item.quantity <= item.minStock * 1.5)
+    .filter(item => item.quantity <= item.min_stock * 1.5)
     .slice(0, 8)
     .map(item => ({
       name: item.name.substring(0, 15),
       quantity: item.quantity,
-      minStock: item.minStock,
+      min_stock: item.min_stock,
     }));
 
   if (data.length === 0) {
@@ -61,7 +61,7 @@ export function StockLevelsChart() {
             <Tooltip />
             <Legend />
             <Bar dataKey="quantity" fill="#3b82f6" name="Current" />
-            <Bar dataKey="minStock" fill="#ef4444" name="Minimum" />
+            <Bar dataKey="min_stock" fill="#ef4444" name="Minimum" />
           </BarChart>
         </ResponsiveContainer>
       </CardContent>

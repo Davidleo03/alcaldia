@@ -19,7 +19,7 @@ interface InventoryFormProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   item?: InventoryItem;
-  onSave: (item: Omit<InventoryItem, 'id' | 'created_at' | 'updatedAt'> & { id?: string }) => void;
+  onSave: (item: Omit<InventoryItem, 'id' | 'created_at' | 'updated_at'> & { id?: string }) => void;
 }
 
 export function InventoryForm({ open, onOpenChange, item, onSave }: InventoryFormProps) {
@@ -27,8 +27,8 @@ export function InventoryForm({ open, onOpenChange, item, onSave }: InventoryFor
     name: '',
     category: '',
     quantity: '',
-    unitOfMeasure: '',
-    minStock: '',
+    unit_of_measure: '',
+    min_stock: '',
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -38,16 +38,16 @@ export function InventoryForm({ open, onOpenChange, item, onSave }: InventoryFor
         name: item.name,
         category: item.category,
         quantity: item.quantity.toString(),
-        unitOfMeasure: item.unitOfMeasure,
-        minStock: item.minStock.toString(),
+        unit_of_measure: item.unit_of_measure,
+        min_stock: item.min_stock.toString(),
       });
     } else {
       setFormData({
         name: '',
         category: CATEGORIES[0],
         quantity: '',
-        unitOfMeasure: UNITS_OF_MEASURE[0],
-        minStock: '',
+        unit_of_measure: UNITS_OF_MEASURE[0],
+        min_stock: '',
       });
     }
     setErrors({});
@@ -61,8 +61,8 @@ export function InventoryForm({ open, onOpenChange, item, onSave }: InventoryFor
     if (!formData.quantity || isNaN(Number(formData.quantity)) || Number(formData.quantity) < 0) {
       newErrors.quantity = 'Se requiere una cantidad válida';
     }
-    if (!formData.minStock || isNaN(Number(formData.minStock)) || Number(formData.minStock) < 0) {
-      newErrors.minStock = 'Se requiere un stock mínimo válido';
+    if (!formData.min_stock || isNaN(Number(formData.min_stock)) || Number(formData.min_stock) < 0) {
+      newErrors.min_stock = 'Se requiere un stock mínimo válido';
     }
 
     setErrors(newErrors);
@@ -79,8 +79,8 @@ export function InventoryForm({ open, onOpenChange, item, onSave }: InventoryFor
       name: formData.name,
       category: formData.category,
       quantity: Number(formData.quantity),
-      unitOfMeasure: formData.unitOfMeasure,
-      minStock: Number(formData.minStock),
+      unit_of_measure: formData.unit_of_measure,
+      min_stock: Number(formData.min_stock),
     });
 
     onOpenChange(false);
@@ -150,19 +150,19 @@ export function InventoryForm({ open, onOpenChange, item, onSave }: InventoryFor
             </div>
 
             <div>
-              <Label htmlFor="minStock">Stock mínimo</Label>
+              <Label htmlFor="min_stock">Stock mínimo</Label>
               <Input
-                id="minStock"
+                id="min_stock"
                 type="number"
                 min="0"
-                value={formData.minStock}
+                value={formData.min_stock}
                 onChange={(e) =>
-                  setFormData(prev => ({ ...prev, minStock: e.target.value }))
+                  setFormData(prev => ({ ...prev, min_stock: e.target.value }))
                 }
-                className={errors.minStock ? 'border-destructive' : ''}
+                className={errors.min_stock ? 'border-destructive' : ''}
                 placeholder="0"
               />
-              {errors.minStock && <p className="text-xs text-destructive mt-1">{errors.minStock}</p>}
+              {errors.min_stock && <p className="text-xs text-destructive mt-1">{errors.min_stock}</p>}
             </div>
           </div>
 
@@ -170,9 +170,9 @@ export function InventoryForm({ open, onOpenChange, item, onSave }: InventoryFor
             <Label htmlFor="unit">Unidad de medida</Label>
             <select
               id="unit"
-              value={formData.unitOfMeasure}
+              value={formData.unit_of_measure}
               onChange={(e) =>
-                setFormData(prev => ({ ...prev, unitOfMeasure: e.target.value }))
+                setFormData(prev => ({ ...prev, unit_of_measure: e.target.value }))
               }
               className="w-full px-3 py-2 border border-border rounded-md bg-input"
             >

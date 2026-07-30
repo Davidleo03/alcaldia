@@ -66,30 +66,30 @@ export interface Database {
           name: string;
           category: string;
           quantity: number;
-          unitOfMeasure: string;
-          minStock: number;
+          unit_of_measure: string;
+          min_stock: number;
           created_at: string;
-          updatedAt: string;
+          updated_at: string;
         };
         Insert: {
           id?: string;
           name: string;
           category: string;
           quantity: number;
-          unitOfMeasure: string;
-          minStock: number;
+          unit_of_measure: string;
+          min_stock: number;
           created_at?: string;
-          updatedAt?: string;
+          updated_at?: string;
         };
         Update: {
           id?: string;
           name?: string;
           category?: string;
           quantity?: number;
-          unitOfMeasure?: string;
-          minStock?: number;
+          unit_of_measure?: string;
+          min_stock?: number;
           created_at?: string;
-          updatedAt?: string;
+          updated_at?: string;
         };
         Relationships: [];
       };
@@ -97,12 +97,12 @@ export interface Database {
         Row: {
           id: string;
           department_id: string;
-          userId: string;
+          user_id: string;
           items: Json;
           status: 'pending' | 'approved' | 'rejected';
           type: 'office' | 'operative';
           reason: string;
-          requestDate: string;
+          request_date: string;
           approvalDate: string | null;
           approvedBy: string | null;
           rejectionReason: string | null;
@@ -110,12 +110,12 @@ export interface Database {
         Insert: {
           id?: string;
           department_id: string;
-          userId: string;
+          user_id: string;
           items: Json;
           status?: 'pending' | 'approved' | 'rejected';
           type: 'office' | 'operative';
           reason: string;
-          requestDate?: string;
+          request_date?: string;
           approvalDate?: string | null;
           approvedBy?: string | null;
           rejectionReason?: string | null;
@@ -123,12 +123,12 @@ export interface Database {
         Update: {
           id?: string;
           department_id?: string;
-          userId?: string;
+          user_id?: string;
           items?: Json;
           status?: 'pending' | 'approved' | 'rejected';
           type?: 'office' | 'operative';
           reason?: string;
-          requestDate?: string;
+          request_date?: string;
           approvalDate?: string | null;
           approvedBy?: string | null;
           rejectionReason?: string | null;

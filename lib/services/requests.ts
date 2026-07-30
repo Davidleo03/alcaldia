@@ -26,13 +26,13 @@ export async function getRequestsByDepartment(department_id: string) {
   return data ?? [] ;
 }
 
-export async function getRequestsByUser(userId: string) {
-  const { data, error } = await supabase.from(table).select('*').eq('userId', userId);
+export async function getRequestsByUser(user_id: string) {
+  const { data, error } = await supabase.from(table).select('*').eq('user_id', user_id);
   if (error) throw error;
   return data ?? [] ;
 }
 
-export async function createRequest(request: RequestInsert)  {
+export async function createRequest(request: any)  {
   const { data, error } = await supabase.from(table).insert(request).select().single();
   if (error) throw error;
   return data 

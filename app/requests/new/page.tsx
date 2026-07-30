@@ -83,20 +83,20 @@ export default function NewRequestPage() {
     const request = {
       id: `req-${Date.now()}`,
       department_id: session.department_id || '',
-      userId: session.userId,
+      user_id: session.user_id,
       items: requestItems,
       status: 'pending' as const,
       type: formData.type,
       reason: formData.reason,
-      requestDate: new Date().toISOString(),
+      request_date: new Date().toISOString(),
     };
 
     await createRequest(request);
     await reloadRequests();
 
     await createAuditLog({
-      id: `audit-${Date.now()}`,
-      userId: session.userId,
+      //id: `audit-${Date.now()}`,
+      user_id: session.user_id,
       action: 'CREATE',
       module: 'requests',
       description: `Creó solicitud de material: ${formData.type} - ${formData.reason}`,
@@ -229,7 +229,7 @@ export default function NewRequestPage() {
                         <option value="">Elige un artículo...</option>
                         {inventory.map(item => (
                           <option key={item.id} value={item.id}>
-                            {item.name} (Disponibles: {item.quantity} {item.unitOfMeasure})
+                            {item.name} (Disponibles: {item.quantity} {item.unit_of_measure})
                           </option>
                         ))}
                       </select>

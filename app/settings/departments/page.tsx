@@ -100,7 +100,7 @@ export default function DepartmentsPage() {
       if (session) {
         await createAuditLog({
           id: `audit-${Date.now()}`,
-          userId: session.userId,
+          user_id: session.user_id,
           action: 'UPDATE',
           module: 'departments',
           description: `Actualizó departamento: ${formData.name}`,
@@ -125,7 +125,7 @@ export default function DepartmentsPage() {
       if (session) {
         await createAuditLog({
           id: `audit-${Date.now()}`,
-          userId: session.userId,
+          user_id: session.user_id,
           action: 'CREATE',
           module: 'departments',
           description: `Creó departamento: ${formData.name}`,
@@ -151,7 +151,7 @@ export default function DepartmentsPage() {
 
       await createAuditLog({
         id: `audit-${Date.now()}`,
-        userId: session.userId,
+        user_id: session.user_id,
         action: 'DELETE',
         module: 'departments',
         description: `Eliminó departamento: ${selectedDept.name}`,

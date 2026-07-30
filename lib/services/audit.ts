@@ -10,7 +10,7 @@ type DbAuditInsert = Database['public']['Tables']['audit_logs']['Insert'];
 function mapDbAuditLog(row: DbAuditLog): AuditLog {
   return {
     id: row.id,
-    userId: row.user_id,
+    user_id: row.user_id,
     action: row.action,
     module: row.module,
     description: row.description,
@@ -26,15 +26,15 @@ export async function getAuditLogs() {
   return (data ?? []).map(mapDbAuditLog);
 }
 
-export async function getAuditLogsByUser(userId: string) {
-  const { data, error } = await supabase.from(table).select('*').eq('user_id', userId);
+export async function getAuditLogsByUser(user_id: string) {
+  const { data, error } = await supabase.from(table).select('*').eq('user_id', user_id);
   if (error) throw error;
   return (data ?? []).map(mapDbAuditLog);
 }
 
 export async function createAuditLog(log: Omit<AuditLog, 'id'>): Promise<AuditLog> {
   const payload: DbAuditInsert = {
-    user_id: log.userId,
+    user_id: log.user_id,
     action: log.action,
     module: log.module,
     description: log.description,

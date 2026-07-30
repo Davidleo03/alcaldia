@@ -40,7 +40,7 @@ export function InventoryTable({ items, onEdit, onDelete }: InventoryTableProps)
     return matchesSearch && matchesCategory;
   });
 
-  const isLowStock = (item: InventoryItem) => item.quantity <= item.minStock;
+  const isLowStock = (item: InventoryItem) => item.quantity <= item.min_stock;
 
   return (
     <div className="space-y-4">
@@ -100,11 +100,11 @@ export function InventoryTable({ items, onEdit, onDelete }: InventoryTableProps)
                   </TableCell>
 
                   <TableCell className="hidden md:table-cell text-right text-muted-foreground">
-                    {item.minStock}
+                    {item.min_stock}
                   </TableCell>
 
                   <TableCell className="hidden md:table-cell text-sm text-muted-foreground">
-                    {item.unitOfMeasure}
+                    {item.unit_of_measure}
                   </TableCell>
 
                   <TableCell className="hidden md:table-cell text-center">

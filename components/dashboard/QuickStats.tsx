@@ -9,7 +9,7 @@ export function QuickStats() {
   const { requests } = useRequests();
 
   const totalItems = inventory.length;
-  const lowStockItems = inventory.filter(item => item.quantity <= item.minStock).length;
+  const lowStockItems = inventory.filter(item => item.quantity <= item.min_stock).length;
   const pendingRequests = requests.filter(r => r.status === 'pending').length;
   const totalQuantity = inventory.reduce((sum, item) => sum + item.quantity, 0);
 

@@ -27,22 +27,22 @@ CREATE TABLE IF NOT EXISTS inventory_items (
   name TEXT NOT NULL,
   category TEXT NOT NULL,
   quantity INTEGER NOT NULL DEFAULT 0,
-  "unitOfMeasure" TEXT NOT NULL,
-  "minStock" INTEGER NOT NULL DEFAULT 0,
+  "unit_of_measure" TEXT NOT NULL,
+  "min_stock" INTEGER NOT NULL DEFAULT 0,
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  "updatedAt" TIMESTAMPTZ NOT NULL DEFAULT NOW()
+  "updated_at" TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
 -- Requests table
 CREATE TABLE IF NOT EXISTS requests (
   id TEXT PRIMARY KEY,
   "department_id" TEXT NOT NULL REFERENCES departments(id) ON DELETE RESTRICT,
-  "userId" TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  "user_id" TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   items JSONB NOT NULL,
   status TEXT NOT NULL CHECK (status IN ('pending', 'approved', 'rejected')),
   "type" TEXT NOT NULL CHECK ("type" IN ('office', 'operative')),
   reason TEXT NOT NULL,
-  "requestDate" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  "request_date" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   "approvalDate" TIMESTAMPTZ,
   "approvedBy" TEXT REFERENCES users(id) ON DELETE SET NULL,
   "rejectionReason" TEXT
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS requests (
 -- Audit logs table
 CREATE TABLE IF NOT EXISTS audit_logs (
   id TEXT PRIMARY KEY,
-  "userId" TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  "user_id" TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   action TEXT NOT NULL CHECK (action IN ('CREATE', 'UPDATE', 'DELETE', 'VIEW', 'APPROVE', 'REJECT')),
   module TEXT NOT NULL CHECK (module IN ('inventory', 'requests', 'departments', 'users', 'auth')),
   description TEXT NOT NULL,
@@ -62,6 +62,6 @@ CREATE TABLE IF NOT EXISTS audit_logs (
 
 -- Indexes
 CREATE INDEX IF NOT EXISTS idx_requests_status ON requests (status);
-CREATE INDEX IF NOT EXISTS idx_requests_user_id ON requests ("userId");
+CREATE INDEX IF NOT EXISTS idx_requests_user_id ON requests ("user_id");
 CREATE INDEX IF NOT EXISTS idx_requests_department_id ON requests ("department_id");
-CREATE INDEX IF NOT EXISTS idx_audit_logs_user_id ON audit_logs ("userId");
+CREATE INDEX IF NOT EXISTS idx_audit_logs_user_id ON audit_logs ("user_id");
