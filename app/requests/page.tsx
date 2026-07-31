@@ -56,6 +56,7 @@ export default function RequestsPage() {
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState<MaterialRequest | undefined>();
   const [approvalDialogOpen, setApprovalDialogOpen] = useState(false);
+  const [actionMode, setActionMode] = useState<'approve' | 'reject'>('approve');
   const [rejectionReason, setRejectionReason] = useState('');
 
   // Filter requests based on user role
@@ -96,6 +97,7 @@ export default function RequestsPage() {
   };
 
   const handleApprove = (request: MaterialRequest) => {
+    setActionMode('approve');
     setSelectedRequest(request);
     setApprovalDialogOpen(true);
   };
@@ -105,8 +107,8 @@ export default function RequestsPage() {
 
     await updateRequest(selectedRequest.id, {
       status: 'approved',
-      approvalDate: new Date().toISOString(),
-      approvedBy: session.user_id,
+      approval_date: new Date().toISOString(),
+      approved_by: session.user_id,
     });
 
     await Promise.all(
@@ -144,6 +146,7 @@ export default function RequestsPage() {
   };
 
   const handleReject = (request: MaterialRequest) => {
+    setActionMode('reject');
     setSelectedRequest(request);
     setRejectionReason('');
     setApprovalDialogOpen(true);
@@ -154,9 +157,9 @@ export default function RequestsPage() {
 
     await updateRequest(selectedRequest.id, {
       status: 'rejected',
-      rejectionReason: rejectionReason,
-      approvalDate: new Date().toISOString(),
-      approvedBy: session.user_id,
+      rejection_reason: rejectionReason,
+      approval_date: new Date().toISOString(),
+      approved_by: session.user_id,
     });
 
     await reloadRequests();
@@ -277,13 +280,34 @@ export default function RequestsPage() {
                         )}
                         <TableCell className="text-sm">{request.items.length} artículo(s)</TableCell>
                         <TableCell className="text-right">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => handleViewDetails(request)}
-                          >
-                            <Eye className="h-4 w-4" />
-                          </Button>
+                          <div className="flex justify-end gap-2 items-center">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleViewDetails(request)}
+                            >
+                              <Eye className="h-4 w-4" />
+                            </Button>
+                            {session?.role === 'admin' && request.status === 'pending' && (
+                              <>
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => handleReject(request)}
+                                  className="bg-destructive/90 text-destructive-foreground hover:bg-destructive/70"
+                                >
+                                  Rechazar
+                                </Button>
+                                <Button
+                                  size="sm"
+                                  onClick={() => handleApprove(request)}
+                                  className="bg-success/90 text-success-foreground hover:bg-success/70"
+                                >
+                                  Aprobar
+                                </Button>
+                              </>
+                            )}
+                          </div>
                         </TableCell>
 
                         {/* Ocultas en móvil */}
@@ -364,7 +388,7 @@ export default function RequestsPage() {
                           {selectedRequest.status === 'approved' ? 'Aprobado por' : 'Rechazado por'}
                         </p>
                         <p className="mt-1">
-                          {selectedRequest.approvedBy ? getUserName(selectedRequest.approvedBy) : 'N/A'}
+                          {selectedRequest.approved_by ? getUserName(selectedRequest.approved_by) : 'N/A'}
                         </p>
                       </div>
                       <div>
@@ -372,15 +396,15 @@ export default function RequestsPage() {
                           {selectedRequest.status === 'approved' ? 'Fecha de aprobación' : 'Fecha de rechazo'}
                         </p>
                         <p className="mt-1">
-                          {selectedRequest.approvalDate
-                            ? format(new Date(selectedRequest.approvalDate), 'MMM dd, yyyy HH:mm')
+                          {selectedRequest.approval_date
+                            ? format(new Date(selectedRequest.approval_date), 'MMM dd, yyyy HH:mm')
                             : 'N/A'}
                         </p>
                       </div>
-                      {selectedRequest.rejectionReason && (
+                      {selectedRequest.rejection_reason && (
                         <div className="col-span-2">
-                          <p className="text-xs font-semibold text-muted-foreground/80">Rejection Reason</p>
-                          <p className="mt-1 text-sm">{selectedRequest.rejectionReason}</p>
+                          <p className="text-xs font-semibold text-muted-foreground/80">Motivo de rechazo</p>
+                          <p className="mt-1 text-sm">{selectedRequest.rejection_reason}</p>
                         </div>
                       )}
                     </div>
@@ -415,18 +439,16 @@ export default function RequestsPage() {
           <DialogContent className="max-w-md">
             <DialogHeader>
               <DialogTitle>
-                {selectedRequest?.status === 'pending' && rejectionReason === ''
-                  ? 'Aprobar solicitud'
-                  : 'Rechazar solicitud'}
+                {actionMode === 'approve' ? 'Aprobar solicitud' : 'Rechazar solicitud'}
               </DialogTitle>
               <DialogDescription>
-                {selectedRequest?.status === 'pending' && rejectionReason === ''
+                {actionMode === 'approve'
                   ? '¿Estás seguro de que deseas aprobar esta solicitud? El inventario se descontará automáticamente.'
                   : 'Proporciona un motivo para rechazar esta solicitud.'}
               </DialogDescription>
             </DialogHeader>
 
-            {rejectionReason !== '' && (
+            {actionMode === 'reject' && (
               <div>
                 <Label htmlFor="reason">Motivo de rechazo</Label>
                 <Textarea
@@ -449,7 +471,7 @@ export default function RequestsPage() {
               >
                 Cancelar
               </Button>
-              {rejectionReason === '' && selectedRequest?.status === 'pending' ? (
+              {actionMode === 'approve' ? (
                 <Button
                   onClick={handleConfirmApproval}
                   className="bg-success hover:bg-success/90"

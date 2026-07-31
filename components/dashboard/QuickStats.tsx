@@ -1,14 +1,34 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useInventory, useRequests } from '@/hooks/useStorage';
+import { getInventory } from '@/lib/services/inventory';
+import { getRequests } from '@/lib/services/requests';
+import type { InventoryItem, MaterialRequest } from '@/lib/types';
 import { Package, AlertCircle, ClipboardList, TrendingDown } from 'lucide-react';
 
 export function QuickStats() {
-  const { inventory } = useInventory();
-  const { requests } = useRequests();
+  const [inventory, setInventory] = useState<InventoryItem[]>([]);
+  const [requests, setRequests] = useState<MaterialRequest[]>([]);
 
-  const totalItems = inventory.length;
+  useEffect(() => {
+    async function loadDashboardData() {
+      const [inventoryData, requestsData] = await Promise.all([
+        getInventory(),
+        getRequests(),
+      ]);
+      setInventory(inventoryData);
+      setRequests(requestsData);
+    }
+
+    loadDashboardData().catch(console.error);
+  }, []);
+
+
+  console.log('Inventory:', inventory);
+  console.log('Requests:', requests);
+
+  const totalItems = requests.length;
   const lowStockItems = inventory.filter(item => item.quantity <= item.min_stock).length;
   const pendingRequests = requests.filter(r => r.status === 'pending').length;
   const totalQuantity = inventory.reduce((sum, item) => sum + item.quantity, 0);

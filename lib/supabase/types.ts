@@ -103,9 +103,9 @@ export interface Database {
           type: 'office' | 'operative';
           reason: string;
           request_date: string;
-          approvalDate: string | null;
-          approvedBy: string | null;
-          rejectionReason: string | null;
+          approval_date: string | null;
+          approved_by: string | null;
+          rejection_reason: string | null;
         };
         Insert: {
           id?: string;
@@ -116,9 +116,9 @@ export interface Database {
           type: 'office' | 'operative';
           reason: string;
           request_date?: string;
-          approvalDate?: string | null;
-          approvedBy?: string | null;
-          rejectionReason?: string | null;
+          approval_date?: string | null;
+          approved_by?: string | null;
+          rejection_reason?: string | null;
         };
         Update: {
           id?: string;
@@ -129,9 +129,9 @@ export interface Database {
           type?: 'office' | 'operative';
           reason?: string;
           request_date?: string;
-          approvalDate?: string | null;
-          approvedBy?: string | null;
-          rejectionReason?: string | null;
+          approval_date?: string | null;
+          approved_by?: string | null;
+          rejection_reason?: string | null;
         };
         Relationships: [];
       };

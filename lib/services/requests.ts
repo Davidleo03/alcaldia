@@ -1,6 +1,6 @@
 import { supabase } from '@/lib/supabase/client';
 import type { Database } from '@/lib/supabase/types';
-import type { MaterialRequest } from '@/lib/types';
+import type { MaterialRequest, RequestItem } from '@/lib/types';
 
 const table = 'requests' as const;
 
@@ -8,16 +8,24 @@ type RequestRow = Database['public']['Tables']['requests']['Row'];
 type RequestInsert = Database['public']['Tables']['requests']['Insert'];
 type RequestUpdate = Database['public']['Tables']['requests']['Update'];
 
-export async function getRequests() {
+const mapRequestRow = (row: RequestRow): MaterialRequest => ({
+  ...row,
+  items: row.items as unknown as RequestItem[],
+  approval_date: row.approval_date ?? undefined,
+  approved_by: row.approved_by ?? undefined,
+  rejection_reason: row.rejection_reason ?? undefined,
+});
+
+export async function getRequests(): Promise<MaterialRequest[]> {
   const { data, error } = await supabase.from(table).select('*');
   if (error) throw error;
-  return data ?? [];
+  return (data ?? []).map(mapRequestRow);
 }
 
 export async function getRequestById(id: string): Promise<MaterialRequest | null> {
   const { data, error } = await supabase.from(table).select('*').eq('id', id).maybeSingle();
   if (error) throw error;
-  return (data ?? null) as MaterialRequest | null;
+  return data ? mapRequestRow(data) : null;
 }
 
 export async function getRequestsByDepartment(department_id: string) {
@@ -32,10 +40,10 @@ export async function getRequestsByUser(user_id: string) {
   return data ?? [] ;
 }
 
-export async function createRequest(request: any)  {
+export async function createRequest(request: RequestInsert): Promise<MaterialRequest> {
   const { data, error } = await supabase.from(table).insert(request).select().single();
   if (error) throw error;
-  return data 
+  return mapRequestRow(data as RequestRow);
 }
 
 export async function updateRequest(id: string, updates: RequestUpdate): Promise<MaterialRequest | null> {

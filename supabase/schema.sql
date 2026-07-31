@@ -43,9 +43,9 @@ CREATE TABLE IF NOT EXISTS requests (
   "type" TEXT NOT NULL CHECK ("type" IN ('office', 'operative')),
   reason TEXT NOT NULL,
   "request_date" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  "approvalDate" TIMESTAMPTZ,
-  "approvedBy" TEXT REFERENCES users(id) ON DELETE SET NULL,
-  "rejectionReason" TEXT
+  "approval_date" TIMESTAMPTZ,
+  "approved_by" TEXT REFERENCES users(id) ON DELETE SET NULL,
+  "rejection_reason" TEXT
 );
 
 -- Audit logs table

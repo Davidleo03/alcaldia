@@ -57,9 +57,9 @@ export interface MaterialRequest {
   type: RequestType;
   reason: string;
   request_date: string;
-  approvalDate?: string;
-  approvedBy?: string;
-  rejectionReason?: string;
+  approval_date?: string;
+  approved_by?: string;
+  rejection_reason?: string;
 }
 
 // Audit log entry

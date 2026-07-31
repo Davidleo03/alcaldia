@@ -9,12 +9,15 @@ import { Label } from '@/components/ui/label';
 import { useInventory, useRequests } from '@/hooks/useStorage';
 import { useAuth } from '@/hooks/useAuth';
 import { RequestItem } from '@/lib/types';
+import type { Database, Json } from '@/lib/supabase/types';
 import { REQUEST_TYPES } from '@/lib/constants';
 import { createRequest } from '@/lib/services/requests';
 import { createAuditLog } from '@/lib/services/audit';
 import { Plus, X } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
+
+type RequestInsert = Database['public']['Tables']['requests']['Insert'];
 
 export default function NewRequestPage() {
   const { inventory } = useInventory();
@@ -80,28 +83,33 @@ export default function NewRequestPage() {
 
     if (!session) return;
 
-    const request = {
-      id: `req-${Date.now()}`,
+    const requestItemsJson = requestItems.map(item => ({
+      inventoryId: item.inventoryId,
+      quantity: item.quantity,
+      notes: item.notes ?? null,
+    })) as unknown as Json;
+
+    const request: RequestInsert = {
       department_id: session.department_id || '',
       user_id: session.user_id,
-      items: requestItems,
-      status: 'pending' as const,
+      items: requestItemsJson,
+      status: 'pending',
       type: formData.type,
       reason: formData.reason,
       request_date: new Date().toISOString(),
     };
 
-    await createRequest(request);
+    const createdRequest = await createRequest(request);
     await reloadRequests();
 
     await createAuditLog({
-      //id: `audit-${Date.now()}`,
+     // id: `audit-${Date.now()}`,
       user_id: session.user_id,
       action: 'CREATE',
       module: 'requests',
       description: `Creó solicitud de material: ${formData.type} - ${formData.reason}`,
       timestamp: new Date().toISOString(),
-      affectedRecordId: request.id,
+      affectedRecordId: createdRequest.id,
     });
 
     toast({

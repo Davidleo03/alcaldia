@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   BarChart,
@@ -16,10 +17,15 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
-import { useInventory } from '@/hooks/useStorage';
+import { getInventory } from '@/lib/services/inventory';
+import type { InventoryItem } from '@/lib/types';
 
 export function StockLevelsChart() {
-  const { inventory } = useInventory();
+  const [inventory, setInventory] = useState<InventoryItem[]>([]);
+
+  useEffect(() => {
+    getInventory().then(setInventory).catch(console.error);
+  }, []);
 
   const data = inventory
     .filter(item => item.quantity <= item.min_stock * 1.5)
@@ -70,7 +76,11 @@ export function StockLevelsChart() {
 }
 
 export function CategoryBreakdown() {
-  const { inventory } = useInventory();
+  const [inventory, setInventory] = useState<InventoryItem[]>([]);
+
+  useEffect(() => {
+    getInventory().then(setInventory).catch(console.error);
+  }, []);
 
   const categoryData = inventory.reduce<Array<{ name: string; value: number }>>(
     (acc, item) => {
